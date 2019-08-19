@@ -26,7 +26,7 @@ engine_aws_backup= create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:MEOB2Bhs7y
 engine_tencent = create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:Meob2bZXkV4MKLyME2@115.159.224.196:1521/orcl",encoding='utf-8', echo=ECHO)
 
 
-tb_name='A_PRODUCER_REALTIME4'
+tb_name='A_PRODUCER_REALTIME'
 
 def get_aws_max_date(tb_name):
     sql="select count(*) from user_tables where table_name = '%s'"%(tb_name)
@@ -62,6 +62,7 @@ EM.country_name,
 bb.purchaser_id,
 ebi.email,
 PPIT.TAG_CODE,
+swc.WEBSITE_ID,
 EBL.ACTION_TIME,
 EBL.ACTION_TYPE 
 FROM
@@ -101,12 +102,14 @@ print('getting data takes time',t2-t1)
 if len(line_list)>0:  
     print('writing data to aws///////////')
     add_data=pd.concat(line_list)
-    cols=['country_name', 'purchaser_id', 'email', 'action_time', 'action_type']
+    cols=['country_name', 'purchaser_id', 'email', 'website_id', 'tag_code','action_time', 'action_type']
         
     add_pd=add_data[cols]
     recom_df_dtype={'country_name':types.VARCHAR(50), 
                     'purchaser_id':types.VARCHAR(50),
                     'email':types.VARCHAR(100), 
+                    'tag_code':types.VARCHAR(50),
+                    'website_id':types.VARCHAR(50),
                     'action_time':types.DATE,
                     'action_type':types.VARCHAR(50)
                     }

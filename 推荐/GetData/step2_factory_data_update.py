@@ -74,15 +74,17 @@ def get_aws_max_date(tb_name):
         return None
 
 
-tb_name='A_TEMP_FACTORY_REALTIME11'
+tb_name='A_FACTORY_REALTIME'
 timestamp_max_aws=get_aws_max_date(tb_name)
+
+
 
 #drop_table(tb_name)
 ################table init data
 if timestamp_max_aws is None:
     print('data table init////////////////')
-    dt_st='2019-08-10 11:31:27'
-    dt_ed='2019-08-11 11:31:27'
+    dt_st='2019-08-15 11:31:27'
+    dt_ed='2019-08-18 11:31:27'
     timestamp_max_aws=timestamp_str2int(dt_st)
     timestamp_st=timestamp_max_aws
     timestamp_ed=timestamp_str2int(dt_ed)
@@ -99,7 +101,7 @@ ret_list=[]
 c=0
 while True:
     c+=1
-    size=100
+    size=1000
     line_list=get_factory_data_page(c,timestamp_st,timestamp_ed)
     line_pd=pd.DataFrame(line_list)
     
@@ -113,14 +115,19 @@ while True:
         break
     
     ret_list.append(line_pd)
-    print('c///',c,'len//',len(ret_list))
+    print('collect data///',c,'len//',len(ret_list))
     
-
-
 
 if len(ret_list)>0:
     print('writing add data to aws///////////')
     add_pd=pd.concat(ret_list,axis=0)
+      
+    idx=((add_pd['emailValid1']=='校验通过' )|(add_pd['emailValidResult1'].apply(lambda x:'unknown' in str(x))) ) &  ((add_pd['phoneValid1']=='校验通过')|(add_pd['mobileValid1'] =='校验通过'))
+    add_pd=add_pd[idx]
+        
+#    cols=['emailValid1','emailValidResult1','phoneValid1','mobileValid1']
+#    aa=add_pd[cols]
+#    
     
     add_pd['opTime'].max()
     
@@ -136,7 +143,7 @@ if len(ret_list)>0:
         'firstName',
         'lastName',
         'opTime',
-        
+         
         ]
     
     add_pd=add_pd[cols]
@@ -157,7 +164,7 @@ if len(ret_list)>0:
     
     add_pd.to_sql(tb_name.lower(),engine_aws_bi,index=False, if_exists='append',chunksize=500,dtype=recom_df_dtype)
     print('wrting table successful//////////////added lines//',len(add_pd))
-#    aa=pd.read_sql('select * from %s '%tb_name,engine_aws_bi)
+    aa=pd.read_sql('select * from %s '%tb_name,engine_aws_bi)
 #    
     
 else:
