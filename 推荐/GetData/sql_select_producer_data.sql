@@ -23,7 +23,7 @@ WHERE
   ( EBL.ACTION_TYPE IN ( 'CheckIn' ) AND EBI.BADGE_TYPE_ID IN ( '0007' ) ) 
   OR ( EBL.ACTION_TYPE IN ( 'CheckIn' ) AND EBI.BADGE_TYPE_ID IN ( '0006', '0009' ) ) 
  ) 
- AND  EBL.ACTION_TIME  >TO_DATE( '2019-06-05 04:37:17', 'yyyy-MM-dd hh24:mi:ss' )  AND  EBL.ACTION_TIME <= TO_DATE( '2019-06-05 05:37:17', 'yyyy-MM-dd hh24:mi:ss' ) 
+ AND  EBL.ACTION_TIME  >TO_DATE('2019-06-05 04:37:17', 'yyyy-MM-dd hh24:mi:ss')  AND  EBL.ACTION_TIME <= TO_DATE( '2019-06-05 05:37:17', 'yyyy-MM-dd hh24:mi:ss' ) 
  
  AND PPIT.TAG_CODE is not NULL
 

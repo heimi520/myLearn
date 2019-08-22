@@ -21,10 +21,8 @@ logging.basicConfig(level = logging.INFO, format='%(asctime)s %(levelname)s %(me
 ECHO=False
 IS_DERECT=False  ####True is direct connect
 
-
 tb_name='A_PRODUCER_REALTIME'
 tb_match_name='ADDED_MATCH_DATA'
-#
 
 t0=time.time()
 class CONF_PRED():
@@ -68,7 +66,7 @@ engine_producer = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(
 truncate_table = lambda table_name: engine_aws_bi.execute('TRUNCATE TABLE {}'.format(table_name))
 drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(table_name))
        
-def get_aws_max_date(tb_name):
+def get_max_date(tb_name):
     """
     get max date from aws data base
     """                 
@@ -79,7 +77,6 @@ def get_aws_max_date(tb_name):
     data=pd.read_sql(sql,engine_aws_bi)
     tb_count=data.iloc[0,0]
     if tb_count>0:
-        logging.info('Table %s is exsit'%tb_name)
         sql='select max("ACTION_TIME") from %s '%tb_name
         data=pd.read_sql(sql,engine_aws_bi)
         dt=data.iloc[0,0]
@@ -89,21 +86,20 @@ def get_aws_max_date(tb_name):
             dt_max_aws=dt.strftime('%Y-%m-%d %H:%M:%S')
             return dt_max_aws
     else:
-        print('Table %s is not exit ,table will be created'%tb_name)
         return None
 
 
 
-dt_max_aws=get_aws_max_date(tb_name)
+dt_max_producer=get_max_date(tb_name)
 
-if dt_max_aws is None:
+if dt_max_producer is None:
     logging.info('Data table init//////////')
     dt_st='2019-06-05 01:00:00'
     dt_ed='2019-06-05 02:00:00'
 
 else:
-    dt_st=dt_max_aws
-    dt_ed=(pd.to_datetime(dt_max_aws)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+    dt_st=dt_max_producer
+    dt_ed=(pd.to_datetime(dt_max_producer)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
 
 logging.info('get producer add data from dt_st:%s to dt_ed:%s'%(dt_st,dt_ed))
 
@@ -169,12 +165,21 @@ if len(line_list)>0:
         logging.info('create producer match table takes time//%s'%(tt2-tt1))   
 
         #############################################################
+        dt_max_match=get_max_date(tb_match_name)      
+        if dt_max_match is None:
+            logging.info('match table init//////////')
+            dt_match_st='1990-01-01 01:00:00'
+            dt_match_ed='2199-06-05 02:00:00'
+        else:
+            dt_match_st=dt_max_match
+            dt_match_ed=(pd.to_datetime(dt_match_st)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+
         with open('sql_insert_producer_match_table.sql','r') as f:
             sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
             sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
         sql_match=sql_match.replace('2019-06-04 01:00:00','%s')
         sql_match=sql_match.replace('2019-06-05 02:00:00','%s')
-        sql_match=sql_match%(dt_st,dt_ed,dt_st,dt_ed) 
+        sql_match=sql_match%(dt_match_st,dt_match_ed,dt_match_st,dt_match_ed) 
         
         tt1=time.time()
         ret=engine_aws_bi.execute(sql_match)

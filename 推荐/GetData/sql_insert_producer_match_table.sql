@@ -1,12 +1,13 @@
 
 INSERT INTO MEORIENTB2B_BI.A_PRODUCER_MATCH_DEMO
 SELECT 
-  b.WEBSITE_ID,
+    b.WEBSITE_ID,
 	b.PURCHASER_ID,
 	b.SUPPLIER_ID,
 	b.MATCH_SCORE,
 	b.PRODUCT_TAG_ID  AS TAG_CODE,
-  TAG.T_NAME AS TAG_NAME ,
+    TAG.T_NAME AS TAG_NAME ,
+    b.ACTION_TIME,
 	LOCALTIMESTAMP  AS CREATE_TIME
 FROM (
 SELECT
@@ -18,8 +19,9 @@ FROM
                 PR.PURCHASER_ID,
                 BS.SUPPLIER_ID,
                 BS.MATCH_SCORE,
-								BS.PRODUCT_TAG_ID  AS PRODUCT_TAG_ID,
-                'match_already' AS match_source 
+				BS.PRODUCT_TAG_ID  AS PRODUCT_TAG_ID,
+                'match_already' AS match_source ,
+                PR.ACTION_TIME
         FROM
                 MEORIENTB2B_BI.A_PRODUCER_REALTIME PR
                 INNER JOIN MEORIENTB2B_BI.RECOM_BUYER_FOR_SUPPLIER BS ON PR.PURCHASER_ID = BS.buyer_id 
@@ -36,8 +38,9 @@ FROM
                 PR.PURCHASER_ID,
                 TSPU.SUPPLIER_ID, 
                 TSPU.TAG_SCORE * 0.6 AS match_score,
-								TSPU.TAG_CODE  AS  PRODUCT_TAG_ID,
-                'tag_mach' AS match_source 
+				TSPU.TAG_CODE  AS  PRODUCT_TAG_ID,
+                'tag_mach' AS match_source,
+                PR.ACTION_TIME
         FROM
                 MEORIENTB2B_BI.A_PRODUCER_REALTIME PR
                 INNER JOIN MEORIENTB2B_BI.RECOM_TAG_SPU_TEMP TSPU ON PR.WEBSITE_ID = TSPU.WEBSITE_ID 

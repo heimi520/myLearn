@@ -23,7 +23,6 @@ from sklearn.model_selection import train_test_split
 
 
 cnnconfig=cnnConfig_STEP2()
-
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"]=cnnconfig.GPU_DEVICES # 使用编号为1，2号的GPU 
 if cnnconfig.GPU_DEVICES=='-1':
@@ -31,6 +30,10 @@ if cnnconfig.GPU_DEVICES=='-1':
 else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
+
+T_LEVEL_USED='T1' ###
+
+BUYSELL='buy'
 
 
 def pipeline_predict(line_list):
@@ -79,34 +82,45 @@ def pipeline_predict(line_list):
 
 
 
-def read_data():
+def read_sell_data():
     data=pd.read_csv('../data/meorient_data/供应商全行业映射标签（20190716修正247url）.csv')
         
     tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx')
     tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
     
-    data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
+    if T_LEVEL_USED=='T2':
+        data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
+        cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
+    elif T_LEVEL_USED=='T1':
+        data=pd.merge(data,tag_stand[['T1']].drop_duplicates(),on=['T1'],how='inner')
+        cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
+     
+    elif T_LEVEL_USED=='T0':
+        cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
+        
+    return data,tag_stand, cnt_pd
 
-    cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
-    return data,cnt_pd
 
 
 
 
-
-def read_sell_data():
-    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret.csv')
+def read_buy_data():
+#    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret.csv')
     data=pd.read_excel('../data/meorient_data/买家全行业映射标签（20190717）.xlsx',encoding='gbk')
    
     tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx',encoding='gbk')
     tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
     
-    data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
-    data=pd.merge(data,data_trans[['source_text','trans_text']],left_on=['PRODUCTS_NAME'],right_on=['source_text'],how='inner')
-    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCTS_NAME_ORIG','trans_text':'PRODUCT_NAME'})
+    if T_LEVEL_USED=='T2':
+         data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
+         cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
+    else:
+        data=pd.merge(data,tag_stand[['T1']].drop_duplicates(),on=['T1'],how='inner')
+        cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
     
-    cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
-    
+    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCT_NAME'})
+#    data=pd.merge(data,data_trans[['source_text','trans_text']],left_on=['PRODUCTS_NAME'],right_on=['source_text'],how='inner')
+#    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCTS_NAME_ORIG','trans_text':'PRODUCT_NAME'})
     return data,tag_stand,cnt_pd
 
 
@@ -115,15 +129,17 @@ def read_sell_data():
 
 #data,cnt_pd=read_data()
 
-
-
-
 #data['sample_w']=1
 #data['source']='meorient_sell'
 #cols_list=['PRODUCT_NAME','T2','T1','PRODUCT_TAG_NAME','sample_w', 'source']
 #data=data[cols_list]
 
-data,tag_stand,cnt_pd=read_sell_data()
+
+if BUYSELL=='buy':
+    data,tag_stand,cnt_pd=read_buy_data()
+elif BUYSELL=='sell':
+    data,tag_stand,cnt_pd=read_sell_data()
+
 
 data_test=data
 
@@ -151,19 +167,24 @@ a=data_test.groupby(['T1_NAME_PRED','TAG_NAME_PRED'])['T1'].count().reset_index(
 cols=['PRODUCT_TAG_NAME','TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','T1','T2','PRODUCT_TAG_NAME','PRODUCT_NAME']
 
 ret_show=data_test[data_test['T1_NAME_PRED']!='Other_T1']
-ret_show[cols].to_csv('../data/output/tagpack_meoreint_pred_TAG.csv',index=False)
+
+ret_bad=data_test[data_test['T1_NAME_PRED']=='Other_T1']
+#ret_show.to_csv('../data/output/tagpack_sell_pred_%s.csv'%T_LEVEL_USED,index=False)
 #data_test[cols].to_csv('../data/output/tagpack_meoreint_pred_TAG_step2.csv',index=False)
 
 cols=['TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','PRODUCT_NAME']
 #ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_step2.xlsx',index=False,encoding='gbk')
 #ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_classweight_step2.xlsx',index=False,encoding='gbk')
-ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_classweight_buy_step2.xlsx',index=False,encoding='gbk')
+ret_show.to_excel('../data/output/tagpack_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
 
 
 aa=data_test.groupby('TAG_NAME_PRED')['T1'].count().sort_values(ascending=False).to_frame('count')
 aa['pct']=aa['count']/len(data_test)
 
 
+
+bb=ret_show[['TAG_NAME_PRED','T1_NAME_PRED','PRODUCT_NAME']].drop_duplicates()
+bb.to_csv('../data/output/tagpack_unique_%s_pred_%s.csv'%(BUYSELL,T_LEVEL_USED),index=False)
 
 
 #
