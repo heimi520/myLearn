@@ -519,7 +519,7 @@ class TextCNN(baseModel):
                                        weights=[embed_w] if self.is_pre_train else None , 
                                        input_length=self.seq_len)(place_x)
         
-
+        embed=keras.layers.SpatialDropout1D(0.2)(embed)
         net=self.create_conv_pool(embed,self.conv_layers)
         net =Dropout(self.drop_out_rate)(net)
         net= Dense(256)(net)
@@ -631,7 +631,6 @@ class Text2Feature(object):
     label2num_dict_name='label2num_dict'
     cols_list=['PRODUCT_NAME']
     
-    is_use_char=True
     use_multi_process=True  
     
     def __init__(self,config):
@@ -640,6 +639,7 @@ class Text2Feature(object):
         self.seq_len=config.SEQ_LEN
         self.max_words=config.MAX_WORDS
         self.is_stem=config.IS_STEM
+        self.is_use_char=config.IS_USE_CHAR
         self.data_model_dir=os.path.join('../data/temp' ,self.model_id) 
         if not os.path.isdir(self.data_model_dir):
             os.makedirs(self.data_model_dir)  

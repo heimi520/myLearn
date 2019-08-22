@@ -495,7 +495,8 @@ class TextCNN(baseModel):
                                        weights=[embed_w] if self.is_pre_train else None , 
                                        input_length=self.seq_len)(place_x)
         
-
+        
+        embed=keras.layers.SpatialDropout1D(0.2)(embed)
         lay_list=self.create_conv_pool(embed,self.kernel_sizes,self.filter_num,self.seq_len)
 
         net = keras.layers.concatenate(lay_list, axis=1)
@@ -690,8 +691,6 @@ class Text2Feature(object):
         """
         """
         t1=time.time()
-
-        
         tokenizer=Tokenizer(num_words=None, filters='',lower=True,split=' ') 
         tokenizer.fit_on_texts(data['text'])
         

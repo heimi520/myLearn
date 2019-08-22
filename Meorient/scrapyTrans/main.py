@@ -38,11 +38,20 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 #
 #         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
 
+#
+# execute(['scrapy', 'crawl', 'vsco',
+#          '-a','is_batch=0',  ###1:yes,0:no
+#          '-a', 'input_path=/home/heimi/文档/gitMeorient/myLearn/test_demo/data/tagpack/tagpack1_buy_need_trans.csv',
+#          '-a', 'output_path=/home/heimi/文档/gitMeorient/myLearn/test_demo/data/tagpack/tagpack1_trans_ret.csv',
+#          ]
+#
+#         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+
 
 execute(['scrapy', 'crawl', 'vsco',
          '-a','is_batch=0',  ###1:yes,0:no
-         '-a', 'input_path=/home/heimi/文档/gitMeorient/myLearn/test_demo/data/tagpack/tagpack1_buy_need_trans.csv',
-         '-a', 'output_path=/home/heimi/文档/gitMeorient/myLearn/test_demo/data/tagpack/tagpack1_trans_ret.csv',
+         '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack2/8.8机器打标标签规则trans.csv',
+         '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack2/8.8机器打标标签规则trans_ok.csv',
          ]
 
         )  # 你需要将此处的spider_name替换为你自己的爬虫名称

@@ -9,104 +9,140 @@ Created on Wed Aug 14 17:01:31 2019
 
 import warnings
 warnings.filterwarnings('ignore')
-import sys
 from os import path
 import time
-import cx_Oracle
 from sqlalchemy import create_engine, types
+from sqlalchemy.orm import sessionmaker
 import pandas as pd
-import os
+import logging
 
+logging.basicConfig(level = logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 ECHO=False
-
-engine_producer = create_engine("oracle+cx_oracle://MEORIENTB2B_PRD_TRACK:Meob2b263UdR41@127.0.0.1:11521/orcl",encoding='utf-8', echo=ECHO) 
-engine_aws_bi = create_engine("oracle+cx_oracle://MEORIENTB2B_BI:MEOB2Bhs7y3bnH#G7G23VB@127.0.0.1:15212/orcl",encoding='utf-8', echo=ECHO)                     
-engine_aws_backup= create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:MEOB2Bhs7y3bnH#G7G23VB@127.0.0.1:15212/orcl",encoding='utf-8', echo=ECHO)
-engine_tencent = create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:Meob2bZXkV4MKLyME2@115.159.224.196:1521/orcl",encoding='utf-8', echo=ECHO)
+IS_DERECT=False  ####True is direct connect
 
 
 tb_name='A_PRODUCER_REALTIME'
+tb_match_name='ADDED_MATCH_DATA'
+#
 
+t0=time.time()
+class CONF_PRED():
+    ip='127.0.0.1'
+    port='11521'
+    
+    if IS_DERECT:
+        ##direct#####################
+        ip='20.39.240.74'
+        port='1521'
+        
+    user='MEORIENTB2B_PRD_TRACK'
+    passwd='Meob2b263UdR41'
+    db='orcl'
+  
+    
+    
+class CONF_BI():
+    ip='127.0.0.1'
+    port='15212'
+    
+    if IS_DERECT:
+        #direct#####################
+        ip='172.31.7.119'
+        port='1521'
+    user='MEORIENTB2B_BI'
+    passwd='MEOB2Bhs7y3bnH#G7G23VB'
+    db='orcl'    
+    
+conf_pred=CONF_PRED()
+conf_bi=CONF_BI()
+    
+engine_producer = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_pred.user,conf_pred.passwd,conf_pred.ip,
+                                conf_pred.port,conf_pred.db ),encoding='utf-8', echo=ECHO) 
+
+#engine_aws_bi = create_engine("oracle+cx_oracle://MEORIENTB2B_BI:MEOB2Bhs7y3bnH#G7G23VB@127.0.0.1:15212/orcl",encoding='utf-8', echo=ECHO)                     
+#engine_aws_backup= create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:MEOB2Bhs7y3bnH#G7G23VB@127.0.0.1:15212/orcl",encoding='utf-8', echo=ECHO)
+#engine_tencent = create_engine("oracle+cx_oracle://MEORIENTB2B_PRES:Meob2bZXkV4MKLyME2@115.159.224.196:1521/orcl",encoding='utf-8', echo=ECHO)
+
+
+truncate_table = lambda table_name: engine_aws_bi.execute('TRUNCATE TABLE {}'.format(table_name))
+drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(table_name))
+       
 def get_aws_max_date(tb_name):
-    sql="select count(*) from user_tables where table_name = '%s'"%(tb_name)
+    """
+    get max date from aws data base
+    """                 
+    engine_aws_bi = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_bi.user,conf_bi.passwd,conf_bi.ip,
+                                conf_bi.port,conf_bi.db ),encoding='utf-8', echo=ECHO) 
+                                  
+    sql="select count(*) from all_tables where table_name = '%s'"%(tb_name)
     data=pd.read_sql(sql,engine_aws_bi)
     tb_count=data.iloc[0,0]
     if tb_count>0:
-        print('table %s is exsit////////////////'%tb_name)
+        logging.info('Table %s is exsit'%tb_name)
         sql='select max("ACTION_TIME") from %s '%tb_name
         data=pd.read_sql(sql,engine_aws_bi)
-        dt_max_aws=data.iloc[0,0].strftime('%Y-%m-%d %H:%M:%S')
-        return dt_max_aws
+        dt=data.iloc[0,0]
+        if dt is None:
+            return dt
+        else:
+            dt_max_aws=dt.strftime('%Y-%m-%d %H:%M:%S')
+            return dt_max_aws
     else:
-        print('table %s is not exit !!!!!!!!!'%tb_name)
+        print('Table %s is not exit ,table will be created'%tb_name)
         return None
+
+
 
 dt_max_aws=get_aws_max_date(tb_name)
 
 if dt_max_aws is None:
-    print('data table init///////////////////////////')
-    dt_st='2019-06-07 01:00:00'
-    dt_ed='2019-06-07 02:00:00'
+    logging.info('Data table init//////////')
+    dt_st='2019-06-05 01:00:00'
+    dt_ed='2019-06-05 02:00:00'
 
 else:
     dt_st=dt_max_aws
     dt_ed=(pd.to_datetime(dt_max_aws)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
-print('dt_st/////',dt_st,'dt_ed/////',dt_ed)
+
+logging.info('get producer add data from dt_st:%s to dt_ed:%s'%(dt_st,dt_ed))
 
 
-sql="""
+def read_data(sql,engine_producer,chunksize=5000):
+    t1=time.time()
+    line_list=[]
+    for k,v in enumerate(pd.read_sql(sql,engine_producer,chunksize=chunksize)):
+        line_list.append(v)
+        t2=time.time()
+        logging.info('k///:%s  batch  data len///:%s  takes time total:%s'%(k,len(v),t2-t1))
+    t2=time.time()
+    return line_list
 
-SELECT
-EM.country_name,
-bb.purchaser_id,
-ebi.email,
-PPIT.TAG_CODE,
-swc.WEBSITE_ID,
-EBL.ACTION_TIME,
-EBL.ACTION_TYPE 
-FROM
- MEORIENTB2B_PRD.EM_BADGE_ACTION_LOG ebl
- LEFT JOIN MEORIENTB2B_PRD.EM_BADGE_INFO ebi ON EBI.id = EBL.BADGE_ID
- LEFT JOIN MEORIENTB2B_PRD.EM_BUYER_BADGE bb ON bb.BADGE_ID = ebl.BADGE_ID
- LEFT JOIN MEORIENTB2B_PRD.em_exhibition EM ON ebl.EXHIBITION_ID = EM.id 
- LEFT JOIN MEORIENTB2B_PRD.SYS_WEBSITE_COUNTRY swc on EM.COUNTRY_ID=swc.COUNTRY_ID
- LEFT JOIN MEORIENTB2B_PRD.PCM_PURCHASE_INTERESTED_TAG PPIT ON PPIT.PURCHASER_ID=BB.PURCHASER_ID  and PPIT.WEBSITE_ID=swc.WEBSITE_ID
-
- 
-WHERE
- EM.year = 2019 
- AND EM.period IN ( 'Q1' ) 
- AND (
-  ( EBL.ACTION_TYPE IN ( 'CheckIn' ) AND EBI.BADGE_TYPE_ID IN ( '0007' ) ) 
-  OR ( EBL.ACTION_TYPE IN ( 'CheckIn' ) AND EBI.BADGE_TYPE_ID IN ( '0006', '0009' ) ) 
- ) 
- AND  EBL.ACTION_TIME  >TO_DATE( '%s', 'yyyy-MM-dd hh24:mi:ss' )  AND  EBL.ACTION_TIME <= TO_DATE( '%s', 'yyyy-MM-dd hh24:mi:ss' ) 
- 
- 
-"""%(dt_st,dt_ed)
-#sql=sql.replace('\n',' ').replace('\t',' ')
-
-t1=time.time()
-line_list=[]
-#for k,v in enumerate(pd.read_sql(sql,engine_tencent,chunksize=1000)):
-for k,v in enumerate(pd.read_sql(sql,engine_producer,chunksize=1000)):
-    line_list.append(v)
-    print('k///',k,'batch  data len///',len(v))
- #line_pd=pd.read_sql(sql,conn_tencent)
-t2=time.time()
-
-print('getting data takes time',t2-t1)
     
-    
+with open('sql_select_producer_data.sql','r') as f:
+    sql_producer_data=f.read()
+sql_producer_data=sql_producer_data.replace('2019-06-05 04:37:17','%s')
+sql_producer_data=sql_producer_data.replace('2019-06-05 05:37:17','%s')
+sql_producer_data=sql_producer_data%(dt_st,dt_ed)
+
+
+tt1=time.time()
+line_list=read_data(sql_producer_data,engine_producer,chunksize=5000) 
+tt2=time.time()
+logging.info('read producer data takes time//%s'%(tt2-tt1))   
+
 if len(line_list)>0:  
-    print('writing data to aws///////////')
+    engine_aws_bi = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_bi.user,conf_bi.passwd,conf_bi.ip,
+                                conf_bi.port,conf_bi.db ),encoding='utf-8', echo=ECHO) 
+
+                              
+    logging.info('start writing added producer data to aws///////////')
     add_data=pd.concat(line_list)
     cols=['country_name', 'purchaser_id', 'email', 'website_id', 'tag_code','action_time', 'action_type']
         
     add_pd=add_data[cols]
     recom_df_dtype={'country_name':types.VARCHAR(50), 
-                    'purchaser_id':types.VARCHAR(50),
+                    'purchaser_id':types.VARCHAR(100),
                     'email':types.VARCHAR(100), 
                     'tag_code':types.VARCHAR(50),
                     'website_id':types.VARCHAR(50),
@@ -114,42 +150,44 @@ if len(line_list)>0:
                     'action_type':types.VARCHAR(50)
                     }
     
+    tt1=time.time()
     add_pd.to_sql(tb_name.lower(),engine_aws_bi,index=False, if_exists='append',chunksize=500,dtype=recom_df_dtype)
-    print('wrting table successful//////////////added data lines',len(add_pd))
-    #aa=pd.read_sql('select * from %s '%tb_name,engine_aws_bi)
+    tt2=time.time()
+    logging.info('wrting  add  producer data ok ,added data lines:%s,takes time:%s'%(len(add_pd),tt2-tt1))
+    
+    if len(add_pd)>0:
+        logging.info('start wrting added match data............')
+        
+        ###########################################################
+        with open('sql_create_producer_match_table.sql','r') as f:
+            sql_create_match_table=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+            
+        tt1=time.time()    
+        ret=engine_aws_bi.execute(sql_create_match_table)
+        tt2=time.time()
+        tt2=time.time()
+        logging.info('create producer match table takes time//%s'%(tt2-tt1))   
+
+        #############################################################
+        with open('sql_insert_producer_match_table.sql','r') as f:
+            sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+            sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
+        sql_match=sql_match.replace('2019-06-04 01:00:00','%s')
+        sql_match=sql_match.replace('2019-06-05 02:00:00','%s')
+        sql_match=sql_match%(dt_st,dt_ed,dt_st,dt_ed) 
+        
+        tt1=time.time()
+        ret=engine_aws_bi.execute(sql_match)
+        tt2=time.time()
+        logging.info('writing  producer added match  successfull,takes time:%s'%(tt2-tt1))
 
 else:
-    print('producer data no added///////////////////')
+    logging.info('producer data no added///////////////////')
 
 
+t_end=time.time()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+logging.info('producer added data match takes time :%s seconds'%(t_end-t0))
 
 
 

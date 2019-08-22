@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15d5db90-ce43-4e37-a240-1ef0f93cecfd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/my_producer_db_get.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/my_producer_db_get.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mylib/model_charcnn_esemble.py" beforeDir="false" afterPath="$PROJECT_DIR$/../mylib/model_charcnn_esemble.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/step1_my_producer_data_update.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/step1_my_producer_data_update.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/step2_factory_data_update.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/step2_factory_data_update.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,7 +17,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vcsoGrid/spiders/imageSpider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
+            <state relative-caret-position="1200">
               <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
               <folding>
                 <element signature="e#2#15#0" expanded="true" />
@@ -33,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+            <state relative-caret-position="499">
+              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
             </state>
           </provider>
         </entry>
@@ -64,7 +66,7 @@
         <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/scrapy/spiders/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1920">
-              <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="89" />
+              <caret line="88" selection-start-line="88" selection-end-line="89" />
             </state>
           </provider>
         </entry>
@@ -72,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vcsoGrid/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="68" column="1" lean-forward="true" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+            <state relative-caret-position="1632">
+              <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -81,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vcsoGrid/pipelines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
+            <state relative-caret-position="480">
               <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
               <folding>
                 <element signature="e#194#205#0" expanded="true" />
@@ -90,11 +92,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vcsoGrid/middlewares.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-134">
-              <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
+            <state relative-caret-position="219">
+              <caret line="87" selection-start-line="87" selection-end-line="87" />
               <folding>
                 <element signature="e#27#53#0" expanded="true" />
               </folding>
@@ -127,8 +129,8 @@
         <option value="$PROJECT_DIR$/vcsoGrid/items.py" />
         <option value="$PROJECT_DIR$/vcsoGrid/pipelines.py" />
         <option value="$PROJECT_DIR$/vcsoGrid/settings.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/vcsoGrid/spiders/imageSpider.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -151,18 +153,7 @@
           <expand>
             <path>
               <item name="scrapyTrans" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/文档/gitMeorient/myLearn/test_demo/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="scrapyTrans" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/文档/gitMeorient/myLearn/test_demo/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="vcsoGrid" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="scrapyTrans" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/文档/gitMeorient/myLearn/test_demo/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="vcsoGrid" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="spiders" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="~/文档/gitCodeLessData/myLearn/Meorient/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -260,7 +251,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.41130435" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4773913" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -315,6 +306,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vcsoGrid/spiders/imageSpider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+          <folding>
+            <element signature="e#2#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/scrapy/core/downloader/middleware.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -339,37 +340,20 @@
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/scrapy/spiders/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1920">
-          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vcsoGrid/spiders/imageSpider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
-          <folding>
-            <element signature="e#2#15#0" expanded="true" />
-          </folding>
+          <caret line="88" selection-start-line="88" selection-end-line="89" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vcsoGrid/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="68" column="1" lean-forward="true" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
+        <state relative-caret-position="1632">
+          <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vcsoGrid/pipelines.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
+        <state relative-caret-position="480">
           <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
           <folding>
             <element signature="e#194#205#0" expanded="true" />
@@ -379,11 +363,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vcsoGrid/middlewares.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-134">
-          <caret line="87" lean-forward="true" selection-start-line="87" selection-end-line="87" />
+        <state relative-caret-position="219">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
           <folding>
             <element signature="e#27#53#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
         </state>
       </provider>
     </entry>

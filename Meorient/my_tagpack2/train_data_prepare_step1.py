@@ -14,8 +14,7 @@ import sys
 from os import path
 sys.path.append( path.dirname(path.dirname(path.abspath(__file__))))
 from keras.preprocessing.text import Tokenizer
-
-
+from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
 
 import re
 from string import punctuation
@@ -23,8 +22,6 @@ from nltk.stem import PorterStemmer
 import random
 from nltk.corpus import stopwords
 stop_words_dict={v:1 for v in stopwords.words('english')}
-
-import gensim
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -109,7 +106,6 @@ class multiProcess(Process):
             
 
 
-
 def text_clean(col):
     add_punc = '.,;《》？！’ ” “”‘’@#￥% … &×（）——+【】{};；●，。°&～、|:：\n'
     punc = punctuation + add_punc
@@ -145,16 +141,16 @@ def sample_sentence(word_list,keep_prob_list,cut1_dict,cut2_dict,cut3_dict,cut4_
     return ret_list
 
 
+   
 
-ok_other=pd.read_csv('../data/input/tagpack_ok_other_step1.csv')
+ok_other=pd.read_csv('../data/input/tagpack_ok_other2.csv')
+
 ###################
 data_ok=ok_other[ok_other['T1']!='Other_T1']
 cols_list=['PRODUCT_NAME','T1','T2','PRODUCT_TAG_NAME','sample_w', 'source']
 data_ok=data_ok[cols_list]
-data_ok['PRODUCT_NAME']=data_ok['PRODUCT_NAME'].str.lower()
-
 other_data=ok_other[ok_other['T1']=='Other_T1']
-
+ 
 all_list=[]        
 for k,v in   enumerate(data_ok.groupby('PRODUCT_TAG_NAME')):
     name=v[0]
@@ -209,31 +205,34 @@ for k,v in   enumerate(data_ok.groupby('PRODUCT_TAG_NAME')):
 
         if len(ret_list)>0:
             sentence_new=' '.join(ret_list)
-            
             line_new[0]=sentence_new
-            line_new[-2]=0.8 if source=='step1_pred' else 0.85
+            line_new[-2]=0.95
             line_new[-1]='add' 
            
             all_list.append(line_new.copy())
-
+            
+    
 data2=pd.DataFrame(all_list,columns=data_ok.columns)
 
-print(data2.groupby('sample_w')['T1'].count())
 
-#data2['T2'].unique()
+a=data2.groupby('PRODUCT_TAG_NAME')['T1'].count().sort_values()
 
-data2.to_csv('../data/input/tagpack_add_data_step2.csv',index=False)
+
+data2.to_csv('../data/input/tagpack2_add_data_step1.csv',index=False)
 
 data2['sample_w'].unique()
 
 other_data=other_data.sample(300000)
-
-other_data.to_csv('../data/input/tagpack_otherdata_step2.csv',index=False)
+#other_data=other_data
+other_data.to_csv('../data/input/tagpack2_otherdata_step1.csv',index=False)
 
 other_data['sample_w'].unique()
  
 
-   
+aa=data2[data2['PRODUCT_TAG_NAME']=='Home Washing Machines']
+#aa=aa[aa['source']='add']  
+
+ 
     
 #other_total=pd.read_csv('../data/input/my_other_v5.csv')
 #data2=pd.read_csv('../data/input/data_add_v5.csv')

@@ -19,9 +19,13 @@ class cnnConfig_STEP1():
     IS_PRE_TRAIN=False
     IS_STEM=True
     EMBED_TRAINABLE=True
+    IS_USE_CHAR=False
     LABEL_LIST=['T1','PRODUCT_TAG_NAME']
     Y_NAME_LIST=['output1','output2']
-    MODEL_ID='cnn_tagpack_step1'
+#    MODEL_ID='cnn_tagpack_release_demo_sample_w_step1'
+#    MODEL_ID='cnn_tagpack2_release_demo_sample_w_v2_step1'
+#    MODEL_ID='cnn_tagpack2_release_demo_sample_w_v2_step1_test'
+    MODEL_ID='cnn_tagpack2_release_demo_sample_w_v2_step1_test2'
 
 
 class cnnConfig_STEP2():
@@ -41,7 +45,7 @@ class cnnConfig_STEP2():
     Y_NAME_LIST=['output1','output2']
 #    MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_STEP2'
 #    MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_classweight_STEP2'
-    MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_classweight_v2_STEP2'
+    MODEL_ID='cnn_tagpack2_release_demo_sample_w_TAG_classweight_v2_STEP2'
    
      
      

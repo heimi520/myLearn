@@ -1,0 +1,21 @@
+
+
+declare
+vl_num number(8);
+STRSQL_CREATE varchar2(1024);
+STRSQL_INSERT varchar2(1024);
+begin
+select count(*)   INTO  vl_num from  all_tables  where table_name='A_PRODUCER_MATCH_DEMO';
+if ( vl_num = 0 ) then
+strSQL_CREATE := 'CREATE    TABLE    MEORIENTB2B_BI.A_PRODUCER_MATCH_DEMO( 
+	WEBSITE_ID  VARCHAR(50),
+	PURCHASER_ID VARCHAR(50),
+	SUPPLIER_ID VARCHAR(50),
+	MATCH_SCORE  NUMBER,
+	TAG_CODE VARCHAR(50),
+	TAG_NAME VARCHAR(100),
+	CREATE_TIME  DATE
+			)' ;
+EXECUTE IMMEDIATE strSQL_CREATE;
+end if;
+end;
