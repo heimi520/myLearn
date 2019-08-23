@@ -25,7 +25,7 @@ class cnnConfig_STEP1():
 
 
 class cnnConfig_STEP2():
-    GPU_DEVICES='0' ##-1:CPU        
+    GPU_DEVICES='-1' ##-1:CPU        
     SEQ_LEN=40 #100
     MAX_WORDS=200000 ##20000 #5000
     VOC_DIM=30 ##100
@@ -50,7 +50,7 @@ class cnnConfig_STEP2():
 
 
 class cnnConfig_CHAR_STEP1():
-    GPU_DEVICES='0' ##-1:CPU        
+    GPU_DEVICES='-1' ##-1:CPU        
     SEQ_LEN=100 #100
     MAX_WORDS=200000 ##20000 #5000
     VOC_DIM=32 ##100

@@ -70,14 +70,14 @@ drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(tab
 engine_aws_bi = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_bi.user,conf_bi.passwd,conf_bi.ip,
                                 conf_bi.port,conf_bi.db ),encoding='utf-8', echo=ECHO) 
        
-
+drop_table(tb_name)
 
 
 sql='SELECT * FROM MEORIENTB2B_BI.A_PRODUCER_MATCH_DEMO WHERE ROWNUM<=10'
 
 #aa=pd.read_sql(sql,engine_aws_bi)
 
-drop_table('MEORIENTB2B_BI.ADDED_MATCH_DATA')
+#drop_table('MEORIENTB2B_BI.ADDED_MATCH_DATA')
 
 #drop_table(tb_name)
 #drop_table(tb_match_name)

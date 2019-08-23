@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="15d5db90-ce43-4e37-a240-1ef0f93cecfd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../my_tagpack/buy_data_orig_to_trans.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_tagpack/buy_data_orig_to_trans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_tagpack/cnn_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step2.py" afterDir="false" />
-    </list>
+    <list default="true" id="15d5db90-ce43-4e37-a240-1ef0f93cecfd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +130,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="580" />
     <option name="y" value="196" />
     <option name="width" value="1400" />
@@ -244,7 +240,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="34" width="2560" height="1325" extended-state="6" />
+    <frame x="0" y="34" width="2560" height="1325" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15625" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

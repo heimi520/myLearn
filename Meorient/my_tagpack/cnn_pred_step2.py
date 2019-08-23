@@ -31,7 +31,7 @@ else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
 
-T_LEVEL_USED='T1' ###
+T_LEVEL_USED='T2' ###
 
 BUYSELL='buy'
 
@@ -105,7 +105,7 @@ def read_sell_data():
 
 
 def read_buy_data():
-#    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret.csv')
+    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret_T1.csv')
     data=pd.read_excel('../data/meorient_data/买家全行业映射标签（20190717）.xlsx',encoding='gbk')
    
     tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx',encoding='gbk')
@@ -117,10 +117,9 @@ def read_buy_data():
     else:
         data=pd.merge(data,tag_stand[['T1']].drop_duplicates(),on=['T1'],how='inner')
         cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
-    
-    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCT_NAME'})
-#    data=pd.merge(data,data_trans[['source_text','trans_text']],left_on=['PRODUCTS_NAME'],right_on=['source_text'],how='inner')
-#    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCTS_NAME_ORIG','trans_text':'PRODUCT_NAME'})
+
+    data=pd.merge(data,data_trans[['source_text','trans_text']],left_on=['PRODUCTS_NAME'],right_on=['source_text'],how='inner')
+    data=data.rename(columns={'PRODUCTS_NAME':'PRODUCTS_NAME_ORIG','trans_text':'PRODUCT_NAME'})
     return data,tag_stand,cnt_pd
 
 

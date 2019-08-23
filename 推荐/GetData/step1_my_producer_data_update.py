@@ -15,6 +15,7 @@ from sqlalchemy import create_engine, types
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import logging
+import re
 
 logging.basicConfig(level = logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
@@ -66,7 +67,7 @@ engine_producer = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(
 truncate_table = lambda table_name: engine_aws_bi.execute('TRUNCATE TABLE {}'.format(table_name))
 drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(table_name))
        
-def get_max_date(tb_name):
+def get_max_date(tb_name,sql_date_max):
     """
     get max date from aws data base
     """                 
@@ -77,8 +78,7 @@ def get_max_date(tb_name):
     data=pd.read_sql(sql,engine_aws_bi)
     tb_count=data.iloc[0,0]
     if tb_count>0:
-        sql='select max("ACTION_TIME") from %s '%tb_name
-        data=pd.read_sql(sql,engine_aws_bi)
+        data=pd.read_sql(sql_date_max,engine_aws_bi)
         dt=data.iloc[0,0]
         if dt is None:
             return dt
@@ -88,20 +88,6 @@ def get_max_date(tb_name):
     else:
         return None
 
-
-
-dt_max_producer=get_max_date(tb_name)
-
-if dt_max_producer is None:
-    logging.info('Data table init//////////')
-    dt_st='2019-06-05 01:00:00'
-    dt_ed='2019-06-05 02:00:00'
-
-else:
-    dt_st=dt_max_producer
-    dt_ed=(pd.to_datetime(dt_max_producer)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
-
-logging.info('get producer add data from dt_st:%s to dt_ed:%s'%(dt_st,dt_ed))
 
 
 def read_data(sql,engine_producer,chunksize=5000):
@@ -114,11 +100,26 @@ def read_data(sql,engine_producer,chunksize=5000):
     t2=time.time()
     return line_list
 
+
+sql_date_max='select max(ACTION_TIME) from MEORIENTB2B_BI.%s '%tb_name
+dt_max_producer=get_max_date(tb_name,sql_date_max)
+
+if dt_max_producer is None:
+    logging.info('Data table init//////////')
+    dt_st='2019-06-05 01:00:00'
+    dt_ed='2019-06-05 02:00:00'
+else:
+    dt_st=dt_max_producer
+    dt_ed=(pd.to_datetime(dt_max_producer)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+
+logging.info('get producer add data from dt_st:%s to dt_ed:%s'%(dt_st,dt_ed))
+
+
+
     
 with open('sql_select_producer_data.sql','r') as f:
     sql_producer_data=f.read()
-sql_producer_data=sql_producer_data.replace('2019-06-05 04:37:17','%s')
-sql_producer_data=sql_producer_data.replace('2019-06-05 05:37:17','%s')
+sql_producer_data=re.sub('[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}','%s',sql_producer_data)
 sql_producer_data=sql_producer_data%(dt_st,dt_ed)
 
 
@@ -134,7 +135,8 @@ if len(line_list)>0:
                               
     logging.info('start writing added producer data to aws///////////')
     add_data=pd.concat(line_list)
-    cols=['country_name', 'purchaser_id', 'email', 'website_id', 'tag_code','action_time', 'action_type']
+    add_data['op_time']=0
+    cols=['country_name', 'purchaser_id', 'email', 'website_id', 'tag_code','action_time','op_time', 'action_type']
         
     add_pd=add_data[cols]
     recom_df_dtype={'country_name':types.VARCHAR(50), 
@@ -143,6 +145,7 @@ if len(line_list)>0:
                     'tag_code':types.VARCHAR(50),
                     'website_id':types.VARCHAR(50),
                     'action_time':types.DATE,
+                    'op_time':types.NUMERIC,
                     'action_type':types.VARCHAR(50)
                     }
     
@@ -165,7 +168,8 @@ if len(line_list)>0:
         logging.info('create producer match table takes time//%s'%(tt2-tt1))   
 
         #############################################################
-        dt_max_match=get_max_date(tb_match_name)      
+        sql_date_match_max="select max(ACTION_TIME) from MEORIENTB2B_BI.%s where source='PRODUCER' "%tb_match_name
+        dt_max_match=get_max_date(tb_match_name,sql_date_match_max)      
         if dt_max_match is None:
             logging.info('match table init//////////')
             dt_match_st='1990-01-01 01:00:00'
@@ -177,8 +181,7 @@ if len(line_list)>0:
         with open('sql_insert_producer_match_table.sql','r') as f:
             sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
             sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
-        sql_match=sql_match.replace('2019-06-04 01:00:00','%s')
-        sql_match=sql_match.replace('2019-06-05 02:00:00','%s')
+        sql_match=re.sub('[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}','%s',sql_match)
         sql_match=sql_match%(dt_match_st,dt_match_ed,dt_match_st,dt_match_ed) 
         
         tt1=time.time()
