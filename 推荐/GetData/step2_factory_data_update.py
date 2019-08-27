@@ -221,8 +221,11 @@ if len(ret_list)>0:
     ret_pd=extract_tag_websiteid(tag_list,add_pd)
 
      #####filter condition///////////////////////
-#    idx=((add_pd['emailValid1']=='校验通过' )|(add_pd['emailValidResult1'].apply(lambda x:'unknown' in str(x))) ) &  ((add_pd['phoneValid1']=='校验通过')|(add_pd['mobileValid1'] =='校验通过'))
-#    add_pd=add_pd[idx]
+    idx=((add_pd['emailValid1']=='校验通过' )|(add_pd['emailValidResult1'].apply(lambda x:'unknown' in str(x))) )\
+    &  ((add_pd['phoneValid1']=='校验通过')|(add_pd['mobileValid1'] =='校验通过'))\
+    &(add_pd['companyName'].notnull())
+    
+    add_pd=add_pd[idx]
         
 #    cols=['emailValid1','emailValidResult1','phoneValid1','mobileValid1']
 #    aa=add_pd[cols]
@@ -303,7 +306,7 @@ if len(ret_list)>0:
 
     con_st='PR.OP_TIME>=%s'%timestamp_st
     con_ed='PR.OP_TIME<%s'%timestamp_ed
-    sql_match=sql_match%(con_st,con_ed,con_st,con_ed) 
+    sql_match=sql_match%(con_st,con_ed,con_st,con_ed,con_st,con_ed) 
     
     tt1=time.time()
     ret=engine_aws_bi.execute(sql_match)

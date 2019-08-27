@@ -31,7 +31,7 @@ else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
 
-T_LEVEL_USED='T2' ###
+T_LEVEL_USED='T0' ###
 
 BUYSELL='buy'
 
@@ -83,7 +83,9 @@ def pipeline_predict(line_list):
 
 
 def read_sell_data():
-    data=pd.read_csv('../data/meorient_data/供应商全行业映射标签（20190716修正247url）.csv')
+#    data=pd.read_csv('../data/meorient_data/供应商全行业映射标签（20190716修正247url）.csv')
+    data=pd.read_excel('../data/meorient_data/供应商打标 .xlsx')
+    
         
     tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx')
     tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
@@ -104,26 +106,34 @@ def read_sell_data():
 
 
 
+
 def read_buy_data():
-    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret_T1.csv')
-    data=pd.read_excel('../data/meorient_data/买家全行业映射标签（20190717）.xlsx',encoding='gbk')
+#    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret_T1.csv')
+#    data=pd.read_excel('../data/meorient_data/买家全行业映射标签（20190717）.xlsx',encoding='gbk')
    
+#    data_trans=pd.read_csv('../data/tagpack/tagpack1_trans_ret_T0_new2.csv')
+#    data=pd.read_excel('../data/meorient_data/买家无T1 TAG.xlsx',encoding='gbk').rename(columns={'PRODUCT_NAME':'PRODUCTS_NAME'})
+    
+ 
+    data_trans=pd.read_csv('../data/tagpack/预注册买家有T级 无标签_T0_transedok.csv')
+    data=pd.read_excel('../data/meorient_data/预注册买家有T级 无标签.xlsx',encoding='gbk').rename(columns={'PRODUCT_NAME':'PRODUCTS_NAME'})
+    
+    
     tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx',encoding='gbk')
     tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
     
     if T_LEVEL_USED=='T2':
          data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
          cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
-    else:
+    elif T_LEVEL_USED=='T1':
         data=pd.merge(data,tag_stand[['T1']].drop_duplicates(),on=['T1'],how='inner')
         cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
-
+    elif T_LEVEL_USED=='T0':
+        cnt_pd=data.groupby('T1')['T1'].count().to_frame('count')
+           
     data=pd.merge(data,data_trans[['source_text','trans_text']],left_on=['PRODUCTS_NAME'],right_on=['source_text'],how='inner')
     data=data.rename(columns={'PRODUCTS_NAME':'PRODUCTS_NAME_ORIG','trans_text':'PRODUCT_NAME'})
     return data,tag_stand,cnt_pd
-
-
-
 
 
 #data,cnt_pd=read_data()
@@ -156,9 +166,12 @@ data_test['TAG_NAME_PRED']=tag2_max
 data_test['T2_NAME_PRED']=data_test['TAG_NAME_PRED'].map(tag_stand.set_index('PRODUCT_TAG_NAME')['T2'].to_dict()).fillna('T1_Other')
 
 
-data_test['cnt']=1
-data_test['ok']=(data_test['PRODUCT_TAG_NAME']==data_test['TAG_NAME_PRED']).astype(int)
+#data_test.to_excel('../data/output/tag_sell_T0_pred_apparel_3c.xlsx',encoding='gbk',index=False)
+data_test.to_excel('../data/output/预注册买家有T级 无标签_T2TAG_pred_%s.xlsx'%T_LEVEL_USED,encoding='gbk',index=False)
 
+#data_test['cnt']=1
+#data_test['ok']=(data_test['PRODUCT_TAG_NAME']==data_test['TAG_NAME_PRED']).astype(int)
+#
 
 a=data_test.groupby(['T1_NAME_PRED','TAG_NAME_PRED'])['T1'].count().reset_index()
 
@@ -174,7 +187,7 @@ ret_bad=data_test[data_test['T1_NAME_PRED']=='Other_T1']
 cols=['TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','PRODUCT_NAME']
 #ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_step2.xlsx',index=False,encoding='gbk')
 #ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_classweight_step2.xlsx',index=False,encoding='gbk')
-ret_show.to_excel('../data/output/tagpack_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
+#ret_show.to_excel('../data/output/tagpack_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
 
 
 aa=data_test.groupby('TAG_NAME_PRED')['T1'].count().sort_values(ascending=False).to_frame('count')
@@ -182,8 +195,8 @@ aa['pct']=aa['count']/len(data_test)
 
 
 
-bb=ret_show[['TAG_NAME_PRED','T1_NAME_PRED','PRODUCT_NAME']].drop_duplicates()
-bb.to_csv('../data/output/tagpack_unique_%s_pred_%s.csv'%(BUYSELL,T_LEVEL_USED),index=False)
+#bb=ret_show[['TAG_NAME_PRED','T1_NAME_PRED','PRODUCT_NAME']].drop_duplicates()
+#bb.to_csv('../data/output/tagpack_unique_%s_pred_%s.csv'%(BUYSELL,T_LEVEL_USED),index=False)
 
 
 #

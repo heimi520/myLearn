@@ -47,14 +47,14 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 #
 #         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
 
-
-execute(['scrapy', 'crawl', 'vsco',
-         '-a','is_batch=0',  ###1:yes,0:no
-         '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_buy_need_trans_T1.csv',
-         '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_trans_ret_T1.csv',
-         ]
-
-        )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+#
+# execute(['scrapy', 'crawl', 'vsco',
+#          '-a','is_batch=0',  ###1:yes,0:no
+#          '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_buy_need_trans_T1.csv',
+#          '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_trans_ret_T1.csv',
+#          ]
+#
+#         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
 
 
 # execute(['scrapy', 'crawl', 'vsco',
@@ -64,3 +64,25 @@ execute(['scrapy', 'crawl', 'vsco',
 #          ]
 #
 #         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+
+#
+#
+# execute(['scrapy', 'crawl', 'vsco',
+#          '-a','is_batch=0',  ###1:yes,0:no
+#          '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_buy_need_trans_T0_new2.csv',
+#          '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/tagpack1_trans_ret_T0_new2.csv',
+#          ]
+#
+#         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+
+
+
+
+execute(['scrapy', 'crawl', 'vsco',
+         '-a','is_batch=0',  ###1:yes,0:no
+         '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/预注册买家有T级 无标签_T0_transneed.csv',
+         '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/tagpack/预注册买家有T级 无标签_T0_transedok.csv',
+         ]
+
+        )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+

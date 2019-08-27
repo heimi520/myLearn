@@ -39,24 +39,42 @@ FROM
         SELECT
                 PR.WEBSITE_ID ,
                 PR.PURCHASER_ID,
-                TSPU.SUPPLIER_ID, 
-                TSPU.TAG_SCORE * 0.6 AS match_score,
-				TSPU.TAG_CODE  AS  PRODUCT_TAG_ID,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
                 'tag_mach' AS match_source,
                 PR.ACTION_TIME,
                 PR.OP_TIME
         FROM
                 MEORIENTB2B_BI.A_PRODUCER_REALTIME PR
-                INNER JOIN MEORIENTB2B_BI.RECOM_TAG_SPU_TEMP TSPU ON PR.WEBSITE_ID = TSPU.WEBSITE_ID 
-                AND PR.TAG_CODE = TSPU.TAG_CODE  
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
         WHERE
                 PR.ACTION_TIME >= TO_DATE( '2019-06-04 01:00:00', 'yyyy-MM-dd hh24:mi:ss' ) 
                 AND PR.ACTION_TIME < TO_DATE( '2019-06-05 02:00:00', 'yyyy-MM-dd hh24:mi:ss' ) 
-
+								
+								
+				    UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                T2F.SUPPLIER_ID, 
+                 50*0.6 AS match_score,
+				         T2F.PRODUCT_TAG_ID  ,
+                'tag_mach' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_PRODUCER_REALTIME PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_T2_TAG_FINAL T2F ON PR.WEBSITE_ID = T2F.WEBSITE_ID 
+                AND PR.TAG_CODE = T2F.PRODUCT_TAG_ID
+        WHERE
+                PR.ACTION_TIME >= TO_DATE( '2019-06-04 01:00:00', 'yyyy-MM-dd hh24:mi:ss' ) 
+                AND PR.ACTION_TIME < TO_DATE( '2019-06-05 02:00:00', 'yyyy-MM-dd hh24:mi:ss' ) 
+												
+							
         ) a 
 				)b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 
-				
-				
-				
 				
 				

@@ -7,7 +7,7 @@ Created on Sat Jun  8 23:33:11 2019
 """
 
 class cnnConfig_STEP1():
-    GPU_DEVICES='-1' ##-1:CPU        
+    GPU_DEVICES='0' ##-1:CPU        
     SEQ_LEN=40 #100
     MAX_WORDS=200000 ##20000 #5000
     VOC_DIM=30 ##100
@@ -22,6 +22,7 @@ class cnnConfig_STEP1():
     LABEL_LIST=['T1','PRODUCT_TAG_NAME']
     Y_NAME_LIST=['output1','output2']
     MODEL_ID='cnn_tagpack_step1'
+#    MODEL_ID='cnn_tagpack_step1_mytest'
 
 
 class cnnConfig_STEP2():
@@ -42,7 +43,7 @@ class cnnConfig_STEP2():
 #    MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_STEP2'
 #    MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_classweight_STEP2'
     MODEL_ID='cnn_tagpack_release_demo_sample_w_TAG_classweight_v2_STEP2'
-   
+    
      
      
 
