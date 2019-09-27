@@ -1,0 +1,34 @@
+2019-09-11 08:56:53 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 08:56:53 INFO start block
+2019-09-11 08:56:53 INFO run_mode:test
+2019-09-11 08:56:53 INFO added RFQ to table:A_RFQ_REALTIME
+2019-09-11 08:56:53 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA
+2019-09-11 08:56:53 INFO set timestamp range to   dt_st:2019-09-10 17:57:57 to dt_ed:2047-01-26 17:57:57
+2019-09-11 08:56:53 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568109477294&timeEnd=2432109477000 
+2019-09-11 08:56:53 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 08:56:54 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568109477294&timeEnd=2432109477000 
+2019-09-11 08:56:54 INFO original factory lines:0
+2019-09-11 08:56:54 INFO create RFQ match table takes time//0.04227471351623535
+2019-09-11 08:56:54 INFO max timestamp from ADDED_RFQ_MATCH_DATA is 1568109477256
+2019-09-11 08:56:54 INFO set match timestamp from 1568109477256 to 1568113077000 
+2019-09-11 08:56:54 INFO writing  RFQ added match  successfull,takes time:0.004095554351806641
+2019-09-11 08:56:54 INFO RFQ added data match takes time :1.2034783363342285 seconds
+2019-09-11 08:56:54 INFO match all lines:291
+2019-09-11 08:57:11 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 08:57:11 INFO start block
+2019-09-11 08:57:11 INFO run_mode:test
+2019-09-11 08:57:11 INFO added RFQ to table:A_RFQ_REALTIME
+2019-09-11 08:57:11 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA
+2019-09-11 08:57:11 INFO set timestamp range to   dt_st:2019-09-10 17:57:57 to dt_ed:2047-01-26 17:57:57
+2019-09-11 08:57:11 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568109477294&timeEnd=2432109477000 
+2019-09-11 08:57:11 INFO original factory lines:0
+2019-09-11 08:57:11 INFO create RFQ match table takes time//0.033789634704589844
+2019-09-11 08:57:11 INFO max timestamp from ADDED_RFQ_MATCH_DATA is 1568109477256
+2019-09-11 08:57:11 INFO set match timestamp from 1568109477256 to 1568113077000 
+2019-09-11 08:57:11 INFO writing  RFQ added match  successfull,takes time:0.003975868225097656
+2019-09-11 08:57:11 INFO RFQ added data match takes time :0.13623356819152832 seconds
+2019-09-11 08:57:11 INFO match all lines:291
+2019-09-11 08:58:58 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 08:58:58 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 08:58:58 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 08:58:58 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

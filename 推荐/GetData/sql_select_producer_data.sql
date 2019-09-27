@@ -1,6 +1,6 @@
 
 
-SELECT
+SELECT DISTINCT
 EM.country_name,
 bb.purchaser_id,
 ebi.email,

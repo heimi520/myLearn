@@ -1,0 +1,603 @@
+2019-09-11 14:12:26 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:12:26 INFO start block
+2019-09-11 14:12:26 INFO run_mode:test
+2019-09-11 14:12:26 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:12:26 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:12:26 INFO data table init
+2019-09-11 14:12:26 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:12:26 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:12:27 INFO collect  request data///:1
+2019-09-11 14:12:27 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:12:27 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:12:28 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:12:28 INFO get request data error///count:2  message:'NoneType' object is not subscriptable
+2019-09-11 14:12:29 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:12:29 INFO original lines:242
+2019-09-11 14:12:29 INFO create RFQ match table takes time//0.007813215255737305
+2019-09-11 14:12:29 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:12:29 INFO match table init//////////
+2019-09-11 14:12:29 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:12:29 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:13:14 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:13:14 INFO start block
+2019-09-11 14:13:14 INFO run_mode:test
+2019-09-11 14:13:14 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:13:14 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:13:14 INFO data table init
+2019-09-11 14:13:14 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:13:14 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:14 INFO collect  request data///:1
+2019-09-11 14:13:14 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:14 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:13:15 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:15 INFO original lines:242
+2019-09-11 14:13:15 INFO create RFQ match table takes time//0.006356716156005859
+2019-09-11 14:13:15 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:13:15 INFO match table init//////////
+2019-09-11 14:13:15 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:13:15 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:13:16 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:13:16 INFO start block
+2019-09-11 14:13:16 INFO run_mode:test
+2019-09-11 14:13:16 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:13:16 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:13:16 INFO data table init
+2019-09-11 14:13:16 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:13:16 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:16 INFO collect  request data///:1
+2019-09-11 14:13:16 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:16 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:13:17 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:17 INFO original lines:242
+2019-09-11 14:13:17 INFO create RFQ match table takes time//0.010000944137573242
+2019-09-11 14:13:17 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:13:17 INFO match table init//////////
+2019-09-11 14:13:17 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:13:17 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:13:18 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:13:18 INFO start block
+2019-09-11 14:13:18 INFO run_mode:test
+2019-09-11 14:13:18 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:13:18 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:13:18 INFO data table init
+2019-09-11 14:13:18 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:13:18 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:18 INFO collect  request data///:1
+2019-09-11 14:13:18 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:18 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:13:19 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:19 INFO original lines:242
+2019-09-11 14:13:19 INFO create RFQ match table takes time//0.005788564682006836
+2019-09-11 14:13:19 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:13:19 INFO match table init//////////
+2019-09-11 14:13:19 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:13:19 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:13:20 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:13:20 INFO start block
+2019-09-11 14:13:20 INFO run_mode:test
+2019-09-11 14:13:20 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:13:20 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:13:20 INFO data table init
+2019-09-11 14:13:20 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:13:20 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:20 INFO collect  request data///:1
+2019-09-11 14:13:20 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:20 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:13:21 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:13:21 INFO original lines:242
+2019-09-11 14:13:21 INFO create RFQ match table takes time//0.006024360656738281
+2019-09-11 14:13:21 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:13:21 INFO match table init//////////
+2019-09-11 14:13:21 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:13:21 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:14:56 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 14:14:56 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 14:14:56 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 14:14:56 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-11 14:14:59 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:14:59 INFO start block
+2019-09-11 14:14:59 INFO run_mode:test
+2019-09-11 14:14:59 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:14:59 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:14:59 INFO data table init
+2019-09-11 14:14:59 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:14:59 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:14:59 INFO collect  request data///:1
+2019-09-11 14:14:59 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:14:59 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:15:00 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:00 INFO original lines:242
+2019-09-11 14:15:00 INFO create RFQ match table takes time//0.007437705993652344
+2019-09-11 14:15:00 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:15:00 INFO match table init//////////
+2019-09-11 14:15:00 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:15:00 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:15:16 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:15:16 INFO start block
+2019-09-11 14:15:16 INFO run_mode:test
+2019-09-11 14:15:16 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:15:16 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:15:16 INFO data table init
+2019-09-11 14:15:16 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:15:16 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:16 INFO collect  request data///:1
+2019-09-11 14:15:16 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:16 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:15:17 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:17 INFO original lines:242
+2019-09-11 14:15:17 INFO create RFQ match table takes time//0.007767677307128906
+2019-09-11 14:15:17 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:15:17 INFO match table init//////////
+2019-09-11 14:15:17 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:15:17 INFO (cx_Oracle.DatabaseError) ORA-00913: too many values
+[SQL: insert into  MEORIENTB2B_BI.ADDED_RFQ_MATCH_DATA_temp
+SELECT distinct
+      b.rfq_id ,
+      b.rfq_website_id,
+      b.website_id as SUPPLIER_WEBSITE_ID,
+      b.supplier_id,
+      b.match_score,
+      b.product_tag_id AS TAG_CODE,
+      TAG.T_NAME AS TAG_NAME ,      
+      b.op_time  ,
+      b.action_time  ,
+      LOCALTIMESTAMP  AS CREATE_TIME,
+	 'RFQ' AS SOURCE
+
+FROM (
+
+SELECT
+       a.* ,row_number() over(partition by  a.rfq_website_id,a.rfq_id,a.supplier_id  order by  a.match_score   desc)  as   idx
+FROM
+(SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+
+				    UNION ALL
+ 
+         SELECT
+                PR.RFQ_WEBSITE_ID ,
+                PR.RFQ_ID,
+                TAGF.WEBSITE_ID ,
+                TAGF.SUPPLIER_ID, 
+                 100*0.3 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+
+                PR.OP_TIME,
+                PR.ACTION_TIME
+        FROM
+                MEORIENTB2B_BI.A_RFQ_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.RFQ_WEBSITE_ID <> TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1548155147000
+                AND PR.OP_TIME<=1567782347000
+						)a
+                        
+                        )b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 14:15:51 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:15:51 INFO start block
+2019-09-11 14:15:51 INFO run_mode:test
+2019-09-11 14:15:51 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:15:51 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:15:51 INFO data table init
+2019-09-11 14:15:51 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:15:51 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:51 INFO collect  request data///:1
+2019-09-11 14:15:51 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:51 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:15:52 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:52 INFO original lines:242
+2019-09-11 14:15:53 INFO create RFQ match table takes time//0.010201215744018555
+2019-09-11 14:15:53 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:15:53 INFO match table init//////////
+2019-09-11 14:15:53 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:15:53 INFO writing  RFQ added match  successfull,takes time:0.025175809860229492
+2019-09-11 14:15:53 INFO RFQ added data match takes time :1.2658476829528809 seconds
+2019-09-11 14:15:53 INFO match all lines:253
+2019-09-11 14:15:59 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 14:15:59 INFO start block
+2019-09-11 14:15:59 INFO run_mode:test
+2019-09-11 14:15:59 INFO added RFQ to table:A_RFQ_REALTIME_temp
+2019-09-11 14:15:59 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA_temp
+2019-09-11 14:15:59 INFO data table init
+2019-09-11 14:15:59 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 14:15:59 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:59 INFO collect  request data///:1
+2019-09-11 14:15:59 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:15:59 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 14:16:00 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 14:16:00 INFO original lines:242
+2019-09-11 14:16:00 INFO create RFQ match table takes time//0.006451129913330078
+2019-09-11 14:16:00 INFO max timestamp from ADDED_RFQ_MATCH_DATA_temp is None
+2019-09-11 14:16:00 INFO match table init//////////
+2019-09-11 14:16:00 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 14:16:01 INFO writing  RFQ added match  successfull,takes time:0.013670682907104492
+2019-09-11 14:16:01 INFO RFQ added data match takes time :1.199547290802002 seconds
+2019-09-11 14:16:01 INFO match all lines:506
+2019-09-11 14:19:18 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 14:19:18 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 14:19:18 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 14:19:18 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

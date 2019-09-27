@@ -1,0 +1,173 @@
+2019-09-17 14:43:21 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:43:21 INFO start block
+2019-09-17 14:43:21 INFO leads type:factory
+2019-09-17 14:43:21 INFO run_mode:test
+2019-09-17 14:43:21 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:43:21 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:43:21 INFO filter_type :short
+2019-09-17 14:43:21 INFO set timestamp range to   dt_st:2019-09-12 15:27:03 to dt_ed:2022-06-08 15:27:03
+2019-09-17 14:43:21 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568273223205&timeEnd=1654673223000
+2019-09-17 14:43:21 INFO collect  request data///:1
+2019-09-17 14:43:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568273223205&timeEnd=1654673223000
+2019-09-17 14:43:22 INFO original lines:3
+2019-09-17 14:43:22 INFO filter lines:2
+2019-09-17 14:43:22 INFO extract lines:7
+2019-09-17 14:43:22 INFO start wrting added match data............
+2019-09-17 14:43:22 INFO create producer match table takes time//0.006024599075317383
+2019-09-17 14:43:22 INFO max timestamp from ADDED_MATCH_DATA is 1568274647000
+2019-09-17 14:43:22 INFO set match timestamp from 1568274647000 to 1568278247000 
+2019-09-17 14:43:22 INFO writing  factory added match  successfull,takes time:0.12707018852233887
+2019-09-17 14:43:22 INFO all takes time :1.3590798377990723 seconds
+2019-09-17 14:43:22 INFO match all lines:9576
+2019-09-17 14:43:22 INFO finish block
+2019-09-17 14:43:25 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:43:25 INFO start block
+2019-09-17 14:43:25 INFO leads type:factory
+2019-09-17 14:43:25 INFO run_mode:test
+2019-09-17 14:43:25 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:43:25 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:43:25 INFO filter_type :short
+2019-09-17 14:43:25 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2022-06-13 13:06:57
+2019-09-17 14:43:25 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=1655096817000
+2019-09-17 14:43:25 INFO original lines:0
+2019-09-17 14:43:25 INFO filter lines:0
+2019-09-17 14:43:25 INFO extract lines:0
+2019-09-17 14:43:25 INFO start wrting added match data............
+2019-09-17 14:43:25 INFO create producer match table takes time//0.03965139389038086
+2019-09-17 14:43:25 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:43:25 INFO set match timestamp from 1568696817463 to 1568700417000 
+2019-09-17 14:43:25 INFO writing  factory added match  successfull,takes time:0.032312631607055664
+2019-09-17 14:43:25 INFO all takes time :0.5645790100097656 seconds
+2019-09-17 14:43:25 INFO match all lines:9578
+2019-09-17 14:43:25 INFO finish block
+2019-09-17 14:43:26 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:43:26 INFO start block
+2019-09-17 14:43:26 INFO leads type:factory
+2019-09-17 14:43:26 INFO run_mode:test
+2019-09-17 14:43:26 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:43:26 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:43:26 INFO filter_type :short
+2019-09-17 14:43:26 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2022-06-13 13:06:57
+2019-09-17 14:43:26 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=1655096817000
+2019-09-17 14:43:26 INFO original lines:0
+2019-09-17 14:43:26 INFO filter lines:0
+2019-09-17 14:43:26 INFO extract lines:0
+2019-09-17 14:43:26 INFO start wrting added match data............
+2019-09-17 14:43:26 INFO create producer match table takes time//0.038182973861694336
+2019-09-17 14:43:27 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:43:27 INFO set match timestamp from 1568696817463 to 1568700417000 
+2019-09-17 14:43:27 INFO writing  factory added match  successfull,takes time:0.009402275085449219
+2019-09-17 14:43:27 INFO all takes time :0.16207599639892578 seconds
+2019-09-17 14:43:27 INFO match all lines:9578
+2019-09-17 14:43:27 INFO finish block
+2019-09-17 14:43:27 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:43:27 INFO start block
+2019-09-17 14:43:27 INFO leads type:factory
+2019-09-17 14:43:27 INFO run_mode:test
+2019-09-17 14:43:27 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:43:27 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:43:27 INFO filter_type :short
+2019-09-17 14:43:27 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2022-06-13 13:06:57
+2019-09-17 14:43:27 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=1655096817000
+2019-09-17 14:43:27 INFO original lines:0
+2019-09-17 14:43:27 INFO filter lines:0
+2019-09-17 14:43:27 INFO extract lines:0
+2019-09-17 14:43:27 INFO start wrting added match data............
+2019-09-17 14:43:28 INFO create producer match table takes time//0.03721117973327637
+2019-09-17 14:43:28 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:43:28 INFO set match timestamp from 1568696817463 to 1568700417000 
+2019-09-17 14:43:28 INFO writing  factory added match  successfull,takes time:0.007100820541381836
+2019-09-17 14:43:28 INFO all takes time :0.2610201835632324 seconds
+2019-09-17 14:43:28 INFO match all lines:9578
+2019-09-17 14:43:28 INFO finish block
+2019-09-17 14:43:28 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:43:28 INFO start block
+2019-09-17 14:43:28 INFO leads type:factory
+2019-09-17 14:43:28 INFO run_mode:test
+2019-09-17 14:43:28 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:43:28 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:43:28 INFO filter_type :short
+2019-09-17 14:43:28 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2022-06-13 13:06:57
+2019-09-17 14:43:28 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=1655096817000
+2019-09-17 14:43:28 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-17 14:43:29 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=1655096817000
+2019-09-17 14:43:29 INFO original lines:0
+2019-09-17 14:43:29 INFO filter lines:0
+2019-09-17 14:43:29 INFO extract lines:0
+2019-09-17 14:43:29 INFO start wrting added match data............
+2019-09-17 14:43:29 INFO create producer match table takes time//0.03975796699523926
+2019-09-17 14:43:30 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:43:30 INFO set match timestamp from 1568696817463 to 1568700417000 
+2019-09-17 14:43:30 INFO writing  factory added match  successfull,takes time:0.006795406341552734
+2019-09-17 14:43:30 INFO all takes time :1.419604778289795 seconds
+2019-09-17 14:43:30 INFO match all lines:9578
+2019-09-17 14:43:30 INFO finish block
+2019-09-17 14:44:45 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 14:44:45 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 14:44:45 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 14:44:45 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 14:49:20 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:49:20 INFO start block
+2019-09-17 14:49:20 INFO leads type:factory
+2019-09-17 14:49:20 INFO run_mode:test
+2019-09-17 14:49:20 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:49:20 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:49:20 INFO filter_type :short
+2019-09-17 14:49:20 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 14:49:20 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=2432610417000
+2019-09-17 14:49:21 INFO original lines:0
+2019-09-17 14:49:21 INFO filter lines:0
+2019-09-17 14:49:21 INFO extract lines:0
+2019-09-17 14:49:21 INFO start wrting added match data............
+2019-09-17 14:49:21 INFO create producer match table takes time//0.034158945083618164
+2019-09-17 14:49:21 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:49:21 INFO set match timestamp from 1568696817463 to 2432610417000 
+2019-09-17 14:49:21 INFO writing  factory added match  successfull,takes time:0.02201700210571289
+2019-09-17 14:49:21 INFO all takes time :0.6247434616088867 seconds
+2019-09-17 14:49:21 INFO match all lines:9578
+2019-09-17 14:49:21 INFO finish block
+2019-09-17 14:49:22 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:49:22 INFO start block
+2019-09-17 14:49:22 INFO leads type:factory
+2019-09-17 14:49:22 INFO run_mode:test
+2019-09-17 14:49:22 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-17 14:49:22 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:49:22 INFO filter_type :short
+2019-09-17 14:49:22 INFO set timestamp range to   dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 14:49:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568696817463&timeEnd=2432610417000
+2019-09-17 14:49:22 INFO original lines:0
+2019-09-17 14:49:22 INFO filter lines:0
+2019-09-17 14:49:22 INFO extract lines:0
+2019-09-17 14:49:22 INFO start wrting added match data............
+2019-09-17 14:49:22 INFO create producer match table takes time//0.03826284408569336
+2019-09-17 14:49:22 INFO max timestamp from ADDED_MATCH_DATA is 1568696817463
+2019-09-17 14:49:22 INFO set match timestamp from 1568696817463 to 2432610417000 
+2019-09-17 14:49:22 INFO writing  factory added match  successfull,takes time:0.0069239139556884766
+2019-09-17 14:49:22 INFO all takes time :0.14627814292907715 seconds
+2019-09-17 14:49:22 INFO match all lines:9578
+2019-09-17 14:49:22 INFO finish block
+2019-09-17 14:50:19 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 14:50:19 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 14:50:19 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 14:50:19 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 14:50:35 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 14:50:35 INFO start block
+2019-09-17 14:50:35 INFO leads type:producer
+2019-09-17 14:50:35 INFO run_mode:test
+2019-09-17 14:50:35 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 14:50:35 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 14:50:35 INFO factory date max:2019-09-17 13:06:57 ,producer date max:2019-09-12 15:50:47  ,date max:2019-09-17 13:06:57
+2019-09-17 14:50:35 INFO get producer add data from dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 14:50:35 INFO read producer data takes time//0.1257185935974121
+2019-09-17 14:50:35 INFO original lines:0
+2019-09-17 14:50:35 INFO start wrting added match data............
+2019-09-17 14:50:35 INFO create producer match table takes time//0.04523730278015137
+2019-09-17 14:50:35 INFO set match date from 2019-09-17 13:06:57 to 2047-02-01 13:06:57 
+2019-09-17 14:50:35 INFO writing  producer added match  successfull,takes time:0.015784502029418945
+2019-09-17 14:50:35 INFO producer added data match takes time :0.34404897689819336 seconds
+2019-09-17 14:50:35 INFO all data lines:9578
+2019-09-17 14:50:35 INFO finish block
+2019-09-17 14:50:49 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 14:50:49 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 14:50:49 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 14:50:49 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

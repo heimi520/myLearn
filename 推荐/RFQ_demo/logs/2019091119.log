@@ -1,0 +1,26 @@
+2019-09-11 19:03:56 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 19:03:56 INFO start block
+2019-09-11 19:03:56 INFO run_mode:test
+2019-09-11 19:03:56 INFO added RFQ to table:A_RFQ_REALTIME2
+2019-09-11 19:03:56 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA2
+2019-09-11 19:03:56 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_RFQ_REALTIME2 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-11 19:03:56 INFO data table init
+2019-09-11 19:03:56 INFO set timestamp range to   dt_st:2019-01-22 19:05:47 to dt_ed:2019-09-06 23:05:47
+2019-09-11 19:03:56 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 19:03:56 INFO collect  request data///:1
+2019-09-11 19:03:56 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1548155147000&timeEnd=1567782347000 
+2019-09-11 19:03:57 INFO original lines:242
+2019-09-11 19:03:57 INFO create RFQ match table takes time//0.008203983306884766
+2019-09-11 19:03:57 INFO max timestamp from ADDED_RFQ_MATCH_DATA2 is None
+2019-09-11 19:03:57 INFO match table init//////////
+2019-09-11 19:03:57 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-11 19:03:57 INFO writing  RFQ added match  successfull,takes time:0.026222705841064453
+2019-09-11 19:03:57 INFO RFQ added data match takes time :1.2783708572387695 seconds
+2019-09-11 19:03:57 INFO match all lines:253
+2019-09-11 19:03:57 INFO finish block
+2019-09-11 19:14:08 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 19:14:08 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 19:14:08 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 19:14:08 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

@@ -1,0 +1,15 @@
+2019-09-17 13:05:35 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 13:05:35 INFO start block
+2019-09-17 13:05:35 INFO leads type:producer
+2019-09-17 13:05:35 INFO run_mode:test
+2019-09-17 13:05:35 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 13:05:35 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 13:05:36 INFO get producer add data from dt_st:2019-09-12 15:27:03 to dt_ed:2019-09-12 16:27:03
+2019-09-17 13:05:36 INFO k///:0  batch  data len///:12  takes time total:0.14020156860351562
+2019-09-17 13:05:36 INFO read producer data takes time//0.14123320579528809
+2019-09-17 13:05:36 INFO name 'ret_list' is not defined
+2019-09-17 13:05:36 INFO finish block
+2019-09-17 14:43:03 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 14:43:03 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 14:43:03 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 14:43:03 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

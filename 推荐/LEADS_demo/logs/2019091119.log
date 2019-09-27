@@ -1,0 +1,25 @@
+2019-09-11 19:14:40 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 19:14:40 INFO start block
+2019-09-11 19:14:40 INFO leads type:factory
+2019-09-11 19:14:40 INFO run_mode:test
+2019-09-11 19:14:40 INFO added leads to table:A_FACTORY_REALTIME3
+2019-09-11 19:14:40 INFO added leads match data to:ADDED_MATCH_DATA3
+2019-09-11 19:14:40 INFO set timestamp range to   dt_st:2019-09-11 15:21:07 to dt_ed:2022-06-07 15:21:07
+2019-09-11 19:14:40 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568186467430&timeEnd=1654586467000
+2019-09-11 19:14:40 INFO collect  request data///:1
+2019-09-11 19:14:41 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568186467430&timeEnd=1654586467000
+2019-09-11 19:14:41 INFO original lines:13
+2019-09-11 19:14:41 INFO filter lines:0
+2019-09-11 19:14:41 INFO extract lines:0
+2019-09-11 19:14:41 INFO start wrting added match data............
+2019-09-11 19:14:41 INFO create producer match table takes time//0.007847070693969727
+2019-09-11 19:14:41 INFO max timestamp from ADDED_MATCH_DATA3 is 1568186467430
+2019-09-11 19:14:41 INFO set match timestamp from 1568186467430 to 1568190067000 
+2019-09-11 19:14:41 INFO writing  factory added match  successfull,takes time:0.014380455017089844
+2019-09-11 19:14:41 INFO all takes time :1.2293365001678467 seconds
+2019-09-11 19:14:41 INFO match all lines:8
+2019-09-11 19:14:41 INFO finish block
+2019-09-11 19:17:39 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 19:17:39 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 19:17:39 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 19:17:39 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

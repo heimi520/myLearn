@@ -2,10 +2,64 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="15d5db90-ce43-4e37-a240-1ef0f93cecfd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../facewap_Demo/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_tagpack/cnn_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_apparel_3c/cnn_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../my_apparel_3c/cnn_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/buy_data_orig_to_trans.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/buy_data_orig_to_trans2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/charcnn_pred_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/charcnn_train_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step1_orig.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_pred_step2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_train_real.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_train_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/cnn_train_step2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/data_process.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/fasttext_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/fasttext_cpu_tagpack.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/model_data_ali_amazon_relabel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/model_data_ali_amazon_split.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/model_mlt_test_cnn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/mytest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/reg_train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/reg_v2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/train_data_prepare_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack/train_data_prepare_step2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/buy_data_orig_to_trans.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/charcnn_pred_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/charcnn_train_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_pred_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_pred_step1_orig.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_pred_step2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_train_real.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_train_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/cnn_train_step2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/create_reg_by_set.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/data_process.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/fasttext_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/fasttext_cpu_tagpack.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/model_data_ali_amazon_relabel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/model_data_ali_amazon_split.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/model_mlt_test_cnn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/mytest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/reg_train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/reg_v2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/train_data_prepare_step1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../my_tagpack2/train_data_prepare_step2.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qty_1111_active/mytest.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qty_1111_active/双十一流量预测.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qty_1111_active/双十一转化率预测.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qty_1111_active/双十一销量预测算法.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qty_1111_active/销量预测test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/sql_create_producer_match_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/sql_create_producer_match_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/sql_insert_producer_match_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/sql_insert_producer_match_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/sql_select_producer_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/sql_select_producer_data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/step1_my_producer_data_update.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../推荐/GetData/step1_my_producer_data_update_V2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/step1_my_producer_data_update_V2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../推荐/GetData/step2_factory_data_update.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../推荐/GetData/step2_factory_data_update.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,65 +70,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vcsoGrid/spiders/imageSpider.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
-              <folding>
-                <element signature="e#2#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vcsoGrid/items.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vcsoGrid/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1632">
-              <caret line="68" column="1" selection-start-line="68" selection-start-column="1" selection-end-line="68" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vcsoGrid/pipelines.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-              <folding>
-                <element signature="e#194#205#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vcsoGrid/middlewares.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1992">
-              <caret line="87" selection-start-line="87" selection-end-line="87" />
-              <folding>
-                <element signature="e#27#53#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="579">
+              <caret line="142" column="112" selection-start-line="142" selection-start-column="112" selection-end-line="142" selection-end-column="112" />
             </state>
           </provider>
         </entry>
@@ -109,7 +109,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="580" />
     <option name="y" value="196" />
     <option name="width" value="1400" />
@@ -123,6 +123,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="scrapyTrans" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/文档/gitCodeLessData/myLearn/Meorient/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -134,17 +145,6 @@
               <item name="vcsoGrid" type="b2602c69:ProjectViewProjectNode" />
               <item name="vcsoGrid" type="462c0819:PsiDirectoryNode" />
               <item name="vcsoGrid" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="scrapyTrans" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/文档/gitCodeLessData/myLearn/Meorient/scrapyTrans" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -220,8 +220,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="2560" height="1325" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15625" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15625" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -348,8 +349,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
+        <state relative-caret-position="579">
+          <caret line="142" column="112" selection-start-line="142" selection-start-column="112" selection-end-line="142" selection-end-column="112" />
         </state>
       </provider>
     </entry>

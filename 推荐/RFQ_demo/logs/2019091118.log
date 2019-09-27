@@ -1,0 +1,35 @@
+2019-09-11 18:30:50 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 18:30:50 INFO start block
+2019-09-11 18:30:50 INFO run_mode:test
+2019-09-11 18:30:50 INFO added RFQ to table:A_RFQ_REALTIME
+2019-09-11 18:30:50 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA
+2019-09-11 18:30:50 INFO set timestamp range to   dt_st:2019-09-11 16:34:50 to dt_ed:2047-01-27 16:34:50
+2019-09-11 18:30:50 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568190890198&timeEnd=2432190890000 
+2019-09-11 18:30:50 INFO original lines:0
+2019-09-11 18:30:50 INFO create RFQ match table takes time//0.048110246658325195
+2019-09-11 18:30:50 INFO max timestamp from ADDED_RFQ_MATCH_DATA is 1568190890198
+2019-09-11 18:30:50 INFO set match timestamp from 1568190890198 to 1568194490000 
+2019-09-11 18:30:50 INFO writing  RFQ added match  successfull,takes time:0.0029435157775878906
+2019-09-11 18:30:50 INFO RFQ added data match takes time :0.3616154193878174 seconds
+2019-09-11 18:30:50 INFO match all lines:488
+2019-09-11 18:30:50 INFO finish block
+2019-09-11 18:31:00 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 18:31:00 INFO start block
+2019-09-11 18:31:00 INFO leads type:producer
+2019-09-11 18:31:00 INFO run_mode:test
+2019-09-11 18:31:00 INFO added leads to table:A_PRODUCER_REALTIME_CHECK
+2019-09-11 18:31:00 INFO added leads match data to:ADDED_MATCH_DATA_CHECK
+2019-09-11 18:31:00 INFO get producer add data from dt_st:2019-09-11 16:24:47 to dt_ed:2019-09-11 17:24:47
+2019-09-11 18:31:00 INFO read producer data takes time//0.1983034610748291
+2019-09-11 18:31:00 INFO original factory lines:0
+2019-09-11 18:31:00 INFO start wrting added match data............
+2019-09-11 18:31:00 INFO create producer match table takes time//0.0461430549621582
+2019-09-11 18:31:00 INFO set match date from 2019-06-05 01:59:43 to 2019-06-05 02:59:43 
+2019-09-11 18:31:00 INFO writing  producer added match  successfull,takes time:0.0037674903869628906
+2019-09-11 18:31:00 INFO producer added data match takes time :0.3308732509613037 seconds
+2019-09-11 18:31:00 INFO all data lines:112
+2019-09-11 18:31:00 INFO finish block
+2019-09-11 18:46:38 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 18:46:38 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 18:46:38 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 18:46:38 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

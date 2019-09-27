@@ -21,44 +21,61 @@ import re
 logging.basicConfig(level = logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 ECHO=False
-IS_DERECT=False  ####True is direct connect
- 
+RUN_MODE='test'  ####'test','direct','jump'
+
+
 tb_name='A_FACTORY_REALTIME'
 tb_match_name='ADDED_MATCH_DATA'
 
 t0=time.time()   
 ## useful table handle tools
-#truncate_table = lambda table_name: engine_aws_bi.execute('TRUNCATE TABLE {}'.format(table_name))
-#drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(table_name))
 
 t0=time.time()
 class CONF_PRED():
-    ip='127.0.0.1'
-    port='11521'
-    
-    if IS_DERECT:
+    if RUN_MODE=='direct':
         ##direct#####################
         ip='20.39.240.74'
         port='1521'
-        
-    user='MEORIENTB2B_PRD_TRACK'
-    passwd='Meob2b263UdR41'
-    db='orcl'
-  
-    
-    
+        user='MEORIENTB2B_PRD_TRACK'
+        passwd='Meob2b263UdR41'
+        db='orcl'
+      
+    elif RUN_MODE=='jump':
+        ip='127.0.0.1'
+        port='11521'
+        user='MEORIENTB2B_PRD_TRACK'
+        passwd='Meob2b263UdR41'
+        db='orcl'
+    elif RUN_MODE=='test':
+        ip='10.21.64.20'
+        port='1521'
+        user='MEORIENTB2B_PRINT_RL'
+        passwd='MEORIENTB2B_PRINT_RL'
+        db='orcl'
+   
 class CONF_BI():
-    ip='127.0.0.1'
-    port='15212'
-    
-    if IS_DERECT:
+    if RUN_MODE=='direct':
         #direct#####################
         ip='172.31.7.119'
         port='1521'
-    user='MEORIENTB2B_BI'
-    passwd='MEOB2Bhs7y3bnH#G7G23VB'
-    db='orcl'    
+        user='MEORIENTB2B_BI'
+        passwd='MEOB2Bhs7y3bnH#G7G23VB'
+        db='orcl'    
+    elif RUN_MODE=='jump':    
+        ip='127.0.0.1'
+        port='15212'
+        user='MEORIENTB2B_BI'
+        passwd='MEOB2Bhs7y3bnH#G7G23VB'
+        db='orcl'  
+    elif  RUN_MODE=='test':
+        ip='10.21.64.20'
+        port='1521'
+        user='MEORIENTB2B_BI'
+        passwd='MEORIENTB2B_BI'
+        db='orcl'  
+        
     
+
 conf_pred=CONF_PRED()
 conf_bi=CONF_BI()
     
@@ -129,10 +146,7 @@ def get_max_date(tb_name,sql_date_max):
     if tb_count>0:
         data=pd.read_sql(sql_date_max,engine_aws_bi)
         dt=data.iloc[0,0]
-        if dt is None:
-            return dt
-        else:
-            return None
+        return dt
     else:
         return None
 
@@ -178,7 +192,7 @@ if timestamp_max_factory is None:
     timestamp_ed=timestamp_str2int(dt_ed)
 
 else:
-    timestamp_st=timestamp_max_aws
+    timestamp_st=timestamp_max_factory
     dt_st=timestamp_int2str(timestamp_st)
     timestamp_ed=timestamp_str2int((pd.to_datetime(dt_st)+pd.Timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S'))
     
@@ -194,10 +208,16 @@ while True:
     line_pd=pd.DataFrame(line_list)
     print(len(line_pd))
     
+#    if len(line_pd)>0:
+#        break
+#    
+    
+    
     if len(line_pd)==0:
         break
-    
-    line_pd['opTime'].max()<timestamp_ed
+#    
+#    line_pd['opTime'].max()<timestamp_ed
+#    line_pd['opTime'].min()>=timestamp_st
     line_pd['opTime_str']=line_pd['opTime'].apply(timestamp_int2str)
     line_pd=line_pd[line_pd['opTime']>timestamp_st]
     if len(line_pd)==0:
@@ -271,55 +291,65 @@ if len(ret_list)>0:
                     }
 
     ret_pd.to_sql(tb_name.lower(),engine_aws_bi,index=False, if_exists='append',chunksize=500,dtype=recom_df_dtype)
-    
     logging.info('wrting  factory added table successful//////////////added lines//:%s'%len(ret_pd))
 #    aa=pd.read_sql('select * from %s '%tb_name,engine_aws_bi)
 #    aa=pd.read_sql('select op_time from %s '%tb_name,engine_aws_bi)
-    
-    ###########################################################
-    with open('sql_create_producer_match_table.sql','r') as f:
-        sql_create_match_table=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
-        
-    tt1=time.time()    
-    ret=engine_aws_bi.execute(sql_create_match_table)
-    tt2=time.time()
-    tt2=time.time()
-    logging.info('create factory match table takes time//%s'%(tt2-tt1))   
 
-    #############################################################
-    sql_date_match_max="select max(OP_TIME) from MEORIENTB2B_BI.%s where source='FACTORY' "%tb_match_name
-    dt_max_match=get_max_date(tb_match_name,sql_date_match_max)      
-    if dt_max_match is None:
-        logging.info('match table init//////////')
-        dt_match_st='1990-01-01 01:00:00'
-        dt_match_ed='2199-06-05 02:00:00'
-    else:
-        dt_match_st=dt_max_match
-        dt_match_ed=(pd.to_datetime(dt_match_st)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
-
-    with open('sql_insert_producer_match_table.sql','r') as f:
-        sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
-        sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
-        sql_match=sql_match.replace("'PRODUCER'","'FACTORY'")
-        sql_match=re.sub("PR.ACTION_TIME.*[\)]",'%s',sql_match)
-    
-
-    con_st='PR.OP_TIME>=%s'%timestamp_st
-    con_ed='PR.OP_TIME<%s'%timestamp_ed
-    sql_match=sql_match%(con_st,con_ed,con_st,con_ed,con_st,con_ed) 
-    
-    tt1=time.time()
-    ret=engine_aws_bi.execute(sql_match)
-    tt2=time.time()
-    logging.info('writing  factory added match  successfull,takes time:%s'%(tt2-tt1))
 
 else:
-    logging.info('no add data//////////////////////////////////')
+    logging.info('no data added/////')
 
+###############################################################################
+logging.info('start wrting added match data............')
+with open('sql_create_producer_match_table.sql','r') as f:
+    sql_create_match_table=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+
+tt1=time.time()
+try:
+    ret=engine_aws_bi.execute(sql_create_match_table)
+except Exception as e:
+    pass
+tt2=time.time()
+logging.info('create producer match table takes time//%s'%(tt2-tt1))   
+
+#############################################################
+sql_date_match_max="select max(OP_TIME) from MEORIENTB2B_BI.%s where source='FACTORY' "%tb_match_name
+dt_max_match=get_max_date(tb_match_name,sql_date_match_max)      
+if dt_max_match is None:
+    logging.info('match table init//////////')
+    dt_match_st='1990-01-01 01:00:00'
+    dt_match_ed='2199-06-05 02:00:00'
+else:
+    dt_match_st=dt_max_match
+    dt_match_ed=(pd.to_datetime(dt_match_st)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+
+with open('sql_insert_producer_match_table.sql','r') as f:
+    sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+    sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
+    sql_match=sql_match.replace("'PRODUCER'","'FACTORY'")
+    sql_match=re.sub("PR.ACTION_TIME.*[\)]",'%s',sql_match)
+
+
+con_st='PR.OP_TIME>%s'%timestamp_st
+con_ed='PR.OP_TIME<=%s'%timestamp_ed
+sql_match=sql_match%(con_st,con_ed,con_st,con_ed,con_st,con_ed) 
+
+tt1=time.time()
+ret=engine_aws_bi.execute(sql_match)
+tt2=time.time()
+logging.info('writing  factory added match  successfull,takes time:%s'%(tt2-tt1))
 
 
 t_ed=time.time()
 logging.info('factory added data match takes time :%s seconds'%(t_ed-t0))
+
+
+sql="select count(*) from %s"%tb_match_name
+dd=pd.read_sql(sql,engine_aws_bi)
+logging.info('all data lines:%s'%dd.iloc[0,0])
+
+truncate_table = lambda table_name: engine_aws_bi.execute('TRUNCATE TABLE {}'.format(table_name))
+drop_table = lambda table_name: engine_aws_bi.execute('DROP TABLE {}'.format(table_name))
 
 
 

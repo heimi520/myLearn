@@ -1,0 +1,23 @@
+2019-09-11 17:01:40 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 17:01:40 INFO start block
+2019-09-11 17:01:40 INFO leads type:factory
+2019-09-11 17:01:40 INFO run_mode:test
+2019-09-11 17:01:40 INFO added leads to table:A_FACTORY_REALTIME_check
+2019-09-11 17:01:40 INFO added leads match data to:ADDED_MATCH_DATA_check
+2019-09-11 17:01:41 INFO data table init
+2019-09-11 17:01:41 INFO set timestamp range to   dt_st:2019-09-11 16:00:00 to dt_ed:2019-09-11 17:00:00
+2019-09-11 17:01:41 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568188800000&timeEnd=1568192400000
+2019-09-11 17:01:41 INFO collect  request data///:1
+2019-09-11 17:01:41 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568188800000&timeEnd=1568192400000
+2019-09-11 17:01:41 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 17:01:42 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568188800000&timeEnd=1568192400000
+2019-09-11 17:01:42 INFO original lines:5
+2019-09-11 17:01:42 INFO filter lines:1
+2019-09-11 17:01:42 INFO list index out of range
+2019-09-11 17:01:42 INFO finish block
+2019-09-11 17:05:02 INFO original lines:5
+2019-09-11 17:05:02 INFO filter lines:1
+2019-09-11 17:05:21 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 17:05:21 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 17:05:21 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 17:05:21 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

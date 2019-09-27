@@ -1,0 +1,28 @@
+2019-09-16 15:42:56 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-16 15:42:56 INFO start block
+2019-09-16 15:42:56 INFO run_mode:test
+2019-09-16 15:42:56 INFO added RFQ to table:A_RFQ_REALTIME2
+2019-09-16 15:42:56 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA2
+2019-09-16 15:42:57 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_RFQ_REALTIME2 ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-16 15:42:57 INFO data table init
+2019-09-16 15:42:57 INFO set timestamp range to   dt_st:2019-09-10 19:05:47 to dt_ed:2019-12-06 23:05:47
+2019-09-16 15:42:57 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568113547000&timeEnd=1575644747000 
+2019-09-16 15:42:57 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-16 15:42:58 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568113547000&timeEnd=1575644747000 
+2019-09-16 15:42:58 INFO collect  request data///:1
+2019-09-16 15:42:58 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=2&size=1000&timeStart=1568113547000&timeEnd=1575644747000 
+2019-09-16 15:42:59 INFO original lines:11
+2019-09-16 15:42:59 INFO create RFQ match table takes time//0.010254383087158203
+2019-09-16 15:42:59 INFO max timestamp from ADDED_RFQ_MATCH_DATA2 is None
+2019-09-16 15:42:59 INFO match table init//////////
+2019-09-16 15:42:59 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-16 15:42:59 INFO writing  RFQ added match  successfull,takes time:0.027897119522094727
+2019-09-16 15:42:59 INFO RFQ added data match takes time :3.481731653213501 seconds
+2019-09-16 15:42:59 INFO match all lines:4
+2019-09-16 15:42:59 INFO finish block
+2019-09-16 16:09:13 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-16 16:09:13 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-16 16:09:13 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-16 16:09:13 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

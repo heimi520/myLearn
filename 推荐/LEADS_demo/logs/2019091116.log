@@ -1,0 +1,36 @@
+2019-09-11 16:28:59 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 16:28:59 INFO start block
+2019-09-11 16:28:59 INFO leads type:producer
+2019-09-11 16:28:59 INFO run_mode:test
+2019-09-11 16:28:59 INFO added leads to table:A_PRODUCER_REALTIME2
+2019-09-11 16:28:59 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 16:28:59 INFO NaTType does not support strftime
+2019-09-11 16:28:59 INFO finish block
+2019-09-11 16:30:25 INFO Data table init//////////
+2019-09-11 16:30:58 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 16:30:58 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 16:30:58 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 16:30:58 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-11 16:31:01 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 16:31:01 INFO start block
+2019-09-11 16:31:01 INFO leads type:producer
+2019-09-11 16:31:01 INFO run_mode:test
+2019-09-11 16:31:01 INFO added leads to table:A_PRODUCER_REALTIME2
+2019-09-11 16:31:01 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 16:31:01 INFO Data table init//////////
+2019-09-11 16:31:01 INFO get producer add data from dt_st:2019-06-05 00:00:00 to dt_ed:2019-06-05 02:00:00
+2019-09-11 16:31:11 INFO k///:0  batch  data len///:56  takes time total:10.208435773849487
+2019-09-11 16:31:11 INFO read producer data takes time//10.209420204162598
+2019-09-11 16:31:11 INFO original lines:56
+2019-09-11 16:31:11 INFO start wrting added match data............
+2019-09-11 16:31:11 INFO create match table takes time//0.011034250259399414
+2019-09-11 16:31:11 INFO match table init//////////
+2019-09-11 16:31:11 INFO set match date from 1990-01-01 01:00:00 to 2199-06-05 02:00:00 
+2019-09-11 16:31:11 INFO writing  producer added match  successfull,takes time:0.12537431716918945
+2019-09-11 16:31:11 INFO producer added data match takes time :10.685606479644775 seconds
+2019-09-11 16:31:11 INFO match all lines:112
+2019-09-11 16:31:11 INFO finish block
+2019-09-11 16:46:29 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 16:46:29 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 16:46:29 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 16:46:29 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

@@ -1,0 +1,19 @@
+2019-09-17 15:05:21 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 15:05:21 INFO start block
+2019-09-17 15:05:21 INFO run_mode:test
+2019-09-17 15:05:21 INFO added RFQ to table:A_RFQ_REALTIME
+2019-09-17 15:05:21 INFO added RFQ match data to:ADDED_RFQ_MATCH_DATA
+2019-09-17 15:05:21 INFO set timestamp range to   dt_st:2019-09-17 10:18:54 to dt_ed:2047-02-02 10:18:54
+2019-09-17 15:05:21 INFO url:http://10.21.64.21:9098/service/factorydata/rfq/queryRfqByOptimePage?page=1&size=1000&timeStart=1568686734378&timeEnd=2432686734000 
+2019-09-17 15:05:21 INFO original lines:0
+2019-09-17 15:05:22 INFO create RFQ match table takes time//0.037995100021362305
+2019-09-17 15:05:22 INFO max timestamp from ADDED_RFQ_MATCH_DATA is 1568686734378
+2019-09-17 15:05:22 INFO set match timestamp from 1568686734378 to 2432600334000 
+2019-09-17 15:05:22 INFO writing  RFQ added match  successfull,takes time:0.01284480094909668
+2019-09-17 15:05:22 INFO RFQ added data match takes time :0.25058794021606445 seconds
+2019-09-17 15:05:22 INFO match all lines:23504
+2019-09-17 15:05:22 INFO finish block
+2019-09-17 15:22:32 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 15:22:32 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 15:22:32 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 15:22:32 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

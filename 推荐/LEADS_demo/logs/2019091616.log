@@ -1,0 +1,21 @@
+2019-09-16 16:12:16 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-16 16:12:16 INFO start block
+2019-09-16 16:12:16 INFO leads type:factory
+2019-09-16 16:12:16 INFO run_mode:test
+2019-09-16 16:12:16 INFO added leads to table:A_FACTORY_REALTIME
+2019-09-16 16:12:16 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-16 16:12:16 INFO set timestamp range to   dt_st:2019-09-12 15:27:03 to dt_ed:2022-06-08 15:27:03
+2019-09-16 16:12:16 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568273223205&timeEnd=1654673223000
+2019-09-16 16:12:16 INFO collect  request data///:1
+2019-09-16 16:12:16 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568273223205&timeEnd=1654673223000
+2019-09-16 16:12:17 INFO original lines:3
+2019-09-16 16:12:17 INFO filter lines:0
+2019-09-16 16:12:17 INFO extract lines:0
+2019-09-16 16:12:17 INFO start wrting added match data............
+2019-09-16 16:12:17 INFO create producer match table takes time//0.008957386016845703
+2019-09-16 16:12:17 INFO max timestamp from ADDED_MATCH_DATA is 1568273223205
+2019-09-16 16:12:17 INFO set match timestamp from 1568273223205 to 1568276823000 
+2019-09-16 16:12:17 INFO writing  factory added match  successfull,takes time:0.008141279220581055
+2019-09-16 16:12:17 INFO all takes time :1.343634843826294 seconds
+2019-09-16 16:12:17 INFO match all lines:9474
+2019-09-16 16:12:17 INFO finish block

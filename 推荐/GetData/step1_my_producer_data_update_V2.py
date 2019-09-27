@@ -20,38 +20,64 @@ import re
 logging.basicConfig(level = logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 ECHO=False
-IS_DERECT=False  ####True is direct connect
+RUN_MODE='test'  ####'test','direct','jump'
 
 tb_name='A_PRODUCER_REALTIME'
 tb_match_name='ADDED_MATCH_DATA'
 
+db_source_name='MEORIENTB2B_PRD'
+db_dest_name='MEORIENTB2B_BI'
+
+if  RUN_MODE=='test':
+    db_source_name='MEORIENTB2B_PRINT_RL'
+
+
 t0=time.time()
 class CONF_PRED():
-    ip='127.0.0.1'
-    port='11521'
-    
-    if IS_DERECT:
+    if RUN_MODE=='direct':
         ##direct#####################
         ip='20.39.240.74'
         port='1521'
-        
-    user='MEORIENTB2B_PRD_TRACK'
-    passwd='Meob2b263UdR41'
-    db='orcl'
-  
-    
-    
+        user='MEORIENTB2B_PRD_TRACK'
+        passwd='Meob2b263UdR41'
+        db='orcl'
+      
+    elif RUN_MODE=='jump':
+        ip='127.0.0.1'
+        port='11521'
+        user='MEORIENTB2B_PRD_TRACK'
+        passwd='Meob2b263UdR41'
+        db='orcl'
+    elif RUN_MODE=='test':
+        ip='10.21.64.20'
+        port='1521'
+        user='MEORIENTB2B_PRINT_RL'
+        passwd='MEORIENTB2B_PRINT_RL'
+        db='orcl'
+   
 class CONF_BI():
-    ip='127.0.0.1'
-    port='15212'
-    
-    if IS_DERECT:
+    if RUN_MODE=='direct':
         #direct#####################
         ip='172.31.7.119'
         port='1521'
-    user='MEORIENTB2B_BI'
-    passwd='MEOB2Bhs7y3bnH#G7G23VB'
-    db='orcl'    
+        user='MEORIENTB2B_BI'
+        passwd='MEOB2Bhs7y3bnH#G7G23VB'
+        db='orcl'    
+    elif RUN_MODE=='jump':    
+        ip='127.0.0.1'
+        port='15212'
+        user='MEORIENTB2B_BI'
+        passwd='MEOB2Bhs7y3bnH#G7G23VB'
+        db='orcl'  
+    elif  RUN_MODE=='test':
+        ip='10.21.64.20'
+        port='1521'
+        user='MEORIENTB2B_BI'
+        passwd='MEORIENTB2B_BI'
+        db='orcl'  
+        
+    
+
     
 conf_pred=CONF_PRED()
 conf_bi=CONF_BI()
@@ -101,7 +127,7 @@ def read_data(sql,engine_producer,chunksize=5000):
     return line_list
 
 
-sql_date_max='select max(ACTION_TIME) from MEORIENTB2B_BI.%s '%tb_name
+sql_date_max='select max(ACTION_TIME) from %s.%s '%(db_dest_name, tb_name)
 dt_max_producer=get_max_date(tb_name,sql_date_max)
 
 if dt_max_producer is None:
@@ -115,10 +141,10 @@ else:
 logging.info('get producer add data from dt_st:%s to dt_ed:%s'%(dt_st,dt_ed))
 
 
-
-    
 with open('sql_select_producer_data.sql','r') as f:
     sql_producer_data=f.read()
+
+sql_producer_data=sql_producer_data.replace('MEORIENTB2B_PRD',db_source_name)
 sql_producer_data=re.sub('[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}','%s',sql_producer_data)
 sql_producer_data=sql_producer_data%(dt_st,dt_ed)
 
@@ -128,16 +154,17 @@ line_list=read_data(sql_producer_data,engine_producer,chunksize=5000)
 tt2=time.time()
 logging.info('read producer data takes time//%s'%(tt2-tt1))   
 
-if len(line_list)>0:  
-    engine_aws_bi = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_bi.user,conf_bi.passwd,conf_bi.ip,
-                                conf_bi.port,conf_bi.db ),encoding='utf-8', echo=ECHO) 
 
-                              
+engine_aws_bi = create_engine("oracle+cx_oracle://{0}:{1}@{2}:{3}/{4}".format(conf_bi.user,conf_bi.passwd,conf_bi.ip,
+                            conf_bi.port,conf_bi.db ),encoding='utf-8', echo=ECHO) 
+
+
+if len(line_list)>0:
     logging.info('start writing added producer data to aws///////////')
-    add_data=pd.concat(line_list)
+    add_data=pd.concat(line_list) 
     add_data['op_time']=0
     cols=['country_name', 'purchaser_id', 'email', 'website_id', 'tag_code','action_time','op_time', 'action_type']
-        
+
     add_pd=add_data[cols]
     recom_df_dtype={'country_name':types.VARCHAR(50), 
                     'purchaser_id':types.VARCHAR(100),
@@ -148,49 +175,51 @@ if len(line_list)>0:
                     'op_time':types.NUMERIC,
                     'action_type':types.VARCHAR(50)
                     }
-    
+
     tt1=time.time()
     add_pd.to_sql(tb_name.lower(),engine_aws_bi,index=False, if_exists='append',chunksize=500,dtype=recom_df_dtype)
     tt2=time.time()
     logging.info('wrting  add  producer data ok ,added data lines:%s,takes time:%s'%(len(add_pd),tt2-tt1))
-    
-    if len(add_pd)>0:
-        logging.info('start wrting added match data............')
-        
-        ###########################################################
-        with open('sql_create_producer_match_table.sql','r') as f:
-            sql_create_match_table=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
-            
-        tt1=time.time()    
-        ret=engine_aws_bi.execute(sql_create_match_table)
-        tt2=time.time()
-        tt2=time.time()
-        logging.info('create producer match table takes time//%s'%(tt2-tt1))   
 
-        #############################################################
-        sql_date_match_max="select max(ACTION_TIME) from MEORIENTB2B_BI.%s where source='PRODUCER' "%tb_match_name
-        dt_max_match=get_max_date(tb_match_name,sql_date_match_max)      
-        if dt_max_match is None:
-            logging.info('match table init//////////')
-            dt_match_st='1990-01-01 01:00:00'
-            dt_match_ed='2199-06-05 02:00:00'
-        else:
-            dt_match_st=dt_max_match
-            dt_match_ed=(pd.to_datetime(dt_match_st)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
-
-        with open('sql_insert_producer_match_table.sql','r') as f:
-            sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
-            sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
-        sql_match=re.sub('[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}','%s',sql_match)
-        sql_match=sql_match%(dt_match_st,dt_match_ed,dt_match_st,dt_match_ed,dt_match_st,dt_match_ed) 
-        
-        tt1=time.time()
-        ret=engine_aws_bi.execute(sql_match)
-        tt2=time.time()
-        logging.info('writing  producer added match  successfull,takes time:%s'%(tt2-tt1))
 
 else:
-    logging.info('producer data no added///////////////////')
+    logging.info('No data added///////')
+    
+
+###########################################################
+logging.info('start wrting added match data............')
+with open('sql_create_producer_match_table.sql','r') as f:
+    sql_create_match_table=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+
+tt1=time.time()
+try:
+    ret=engine_aws_bi.execute(sql_create_match_table)
+except Exception as e:
+    pass
+tt2=time.time()
+logging.info('create producer match table takes time//%s'%(tt2-tt1))   
+
+#############################################################
+sql_date_match_max="select max(ACTION_TIME) from MEORIENTB2B_BI.%s where source='PRODUCER' "%tb_match_name
+dt_max_match=get_max_date(tb_match_name,sql_date_match_max)      
+if dt_max_match is None:
+    logging.info('match table init//////////')
+    dt_match_st='1990-01-01 01:00:00'
+    dt_match_ed='2199-06-05 02:00:00'
+else:
+    dt_match_st=dt_max_match
+    dt_match_ed=(pd.to_datetime(dt_match_st)+pd.Timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+
+with open('sql_insert_producer_match_table.sql','r') as f:
+    sql_match=f.read().replace('A_PRODUCER_MATCH_DEMO',tb_match_name)
+    sql_match=sql_match.replace('A_PRODUCER_REALTIME',tb_name)
+sql_match=re.sub('[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}','%s',sql_match)
+sql_match=sql_match%(dt_match_st,dt_match_ed,dt_match_st,dt_match_ed,dt_match_st,dt_match_ed) 
+
+tt1=time.time()
+ret=engine_aws_bi.execute(sql_match)
+tt2=time.time()
+logging.info('writing  producer added match  successfull,takes time:%s'%(tt2-tt1))
 
 
 t_end=time.time()
@@ -198,11 +227,22 @@ t_end=time.time()
 logging.info('producer added data match takes time :%s seconds'%(t_end-t0))
 
 
+sql="select count(*) from %s"%tb_match_name
+dd=pd.read_sql(sql,engine_aws_bi)
+logging.info('all data lines:%s'%dd.iloc[0,0])
+
+#
+#sql="""
+#SELECT  SUPPLIER_ID,PURCHASER_ID,WEBSITE_ID ,COUNT(*) as cnt  FROM MEORIENTB2B_BI.ADDED_MATCH_DATA GROUP BY SUPPLIER_ID,PURCHASER_ID,WEBSITE_ID  order by cnt desc
+# """
+#dd=pd.read_sql(sql,engine_aws_bi).head(3)
+#
+#print(dd)
 
 
 
-
-
-
+###
+#drop_table(tb_name)
+#drop_table(tb_match_name)
 
 

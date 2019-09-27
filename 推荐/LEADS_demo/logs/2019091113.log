@@ -1,0 +1,151 @@
+2019-09-11 13:06:29 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:06:29 INFO start block
+2019-09-11 13:06:29 INFO leads type:producer
+2019-09-11 13:06:29 INFO run_mode:test
+2019-09-11 13:06:29 INFO added leads to table:A_PRODUCER_REALTIME2
+2019-09-11 13:06:29 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:06:30 INFO get producer add data from dt_st:2019-09-08 14:21:30 to dt_ed:2019-09-08 15:21:30
+2019-09-11 13:06:30 INFO read producer data takes time//0.2267003059387207
+2019-09-11 13:06:30 INFO original factory lines:0
+2019-09-11 13:06:30 INFO start wrting added match data............
+2019-09-11 13:06:30 INFO create producer match table takes time//0.045743703842163086
+2019-09-11 13:06:30 INFO set match date from 2019-06-05 01:59:43 to 2019-06-05 02:59:43 
+2019-09-11 13:06:30 INFO writing  producer added match  successfull,takes time:0.0033273696899414062
+2019-09-11 13:06:30 INFO producer added data match takes time :0.46958208084106445 seconds
+2019-09-11 13:06:30 INFO all data lines:75
+2019-09-11 13:06:30 INFO finish block
+2019-09-11 13:33:08 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 13:33:08 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 13:33:08 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 13:33:08 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-11 13:33:22 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:33:22 INFO start block
+2019-09-11 13:33:22 INFO leads type:factory
+2019-09-11 13:33:22 INFO run_mode:test
+2019-09-11 13:33:22 INFO added leads to table:A_FACTORY_REALTIME2
+2019-09-11 13:33:22 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:33:22 INFO set timestamp range to   dt_st:2019-09-08 15:21:30 to dt_ed:2022-06-04 15:21:30
+2019-09-11 13:33:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:22 INFO collect  request data///:1
+2019-09-11 13:33:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:22 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 13:33:23 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:23 INFO original factory lines:1
+2019-09-11 13:33:23 INFO filter factory lines:0
+2019-09-11 13:33:23 INFO extract factory lines:0
+2019-09-11 13:33:23 INFO start wrting added match data............
+2019-09-11 13:33:23 INFO create producer match table takes time//0.0062408447265625
+2019-09-11 13:33:23 INFO max timestamp from ADDED_MATCH_DATA2 is 1567927290523
+2019-09-11 13:33:23 INFO set match timestamp from 1567927290523 to 1567930890000 
+2019-09-11 13:33:23 INFO writing  factory added match  successfull,takes time:0.014084339141845703
+2019-09-11 13:33:23 INFO all takes time :1.3883607387542725 seconds
+2019-09-11 13:33:23 INFO match all lines:14
+2019-09-11 13:33:23 INFO finish block
+2019-09-11 13:33:27 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:33:27 INFO start block
+2019-09-11 13:33:27 INFO leads type:factory
+2019-09-11 13:33:27 INFO run_mode:test
+2019-09-11 13:33:27 INFO added leads to table:A_FACTORY_REALTIME2
+2019-09-11 13:33:27 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:33:27 INFO set timestamp range to   dt_st:2019-09-08 15:21:30 to dt_ed:2022-06-04 15:21:30
+2019-09-11 13:33:27 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:27 INFO collect  request data///:1
+2019-09-11 13:33:27 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:27 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 13:33:28 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:33:28 INFO original factory lines:1
+2019-09-11 13:33:28 INFO filter factory lines:0
+2019-09-11 13:33:28 INFO extract factory lines:0
+2019-09-11 13:33:28 INFO start wrting added match data............
+2019-09-11 13:33:28 INFO create producer match table takes time//0.006567955017089844
+2019-09-11 13:33:28 INFO max timestamp from ADDED_MATCH_DATA2 is 1567927290523
+2019-09-11 13:33:28 INFO set match timestamp from 1567927290523 to 1567930890000 
+2019-09-11 13:33:28 INFO writing  factory added match  successfull,takes time:0.003025531768798828
+2019-09-11 13:33:28 INFO all takes time :1.213639259338379 seconds
+2019-09-11 13:33:28 INFO match all lines:14
+2019-09-11 13:33:28 INFO finish block
+2019-09-11 13:34:03 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 13:34:03 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 13:34:03 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 13:34:03 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-11 13:40:27 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:40:27 INFO start block
+2019-09-11 13:40:27 INFO leads type:factory
+2019-09-11 13:40:27 INFO run_mode:test
+2019-09-11 13:40:27 INFO added leads to table:A_FACTORY_REALTIME2
+2019-09-11 13:40:27 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:40:27 INFO set timestamp range to   dt_st:2019-09-08 15:21:30 to dt_ed:2022-06-04 15:21:30
+2019-09-11 13:40:27 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:27 INFO collect  request data///:1
+2019-09-11 13:40:27 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:27 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 13:40:28 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:28 INFO original lines:1
+2019-09-11 13:40:28 INFO filter lines:0
+2019-09-11 13:40:28 INFO extract lines:0
+2019-09-11 13:40:29 INFO start wrting added match data............
+2019-09-11 13:40:29 INFO create producer match table takes time//0.007329702377319336
+2019-09-11 13:40:29 INFO max timestamp from ADDED_MATCH_DATA2 is 1567927290523
+2019-09-11 13:40:29 INFO set match timestamp from 1567927290523 to 1567930890000 
+2019-09-11 13:40:29 INFO writing  factory added match  successfull,takes time:0.019766569137573242
+2019-09-11 13:40:29 INFO all takes time :1.4032361507415771 seconds
+2019-09-11 13:40:29 INFO match all lines:14
+2019-09-11 13:40:29 INFO finish block
+2019-09-11 13:40:57 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:40:57 INFO start block
+2019-09-11 13:40:57 INFO leads type:factory
+2019-09-11 13:40:57 INFO run_mode:test
+2019-09-11 13:40:57 INFO added leads to table:A_FACTORY_REALTIME2
+2019-09-11 13:40:57 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:40:57 INFO set timestamp range to   dt_st:2019-09-08 15:21:30 to dt_ed:2022-06-04 15:21:30
+2019-09-11 13:40:57 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:57 INFO collect  request data///:1
+2019-09-11 13:40:57 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:57 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 13:40:58 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:40:58 INFO original lines:1
+2019-09-11 13:40:58 INFO filter lines:0
+2019-09-11 13:40:58 INFO extract lines:0
+2019-09-11 13:40:58 INFO start wrting added match data............
+2019-09-11 13:40:58 INFO create producer match table takes time//0.006403446197509766
+2019-09-11 13:40:58 INFO max timestamp from ADDED_MATCH_DATA2 is 1567927290523
+2019-09-11 13:40:58 INFO set match timestamp from 1567927290523 to 1567930890000 
+2019-09-11 13:40:58 INFO writing  factory added match  successfull,takes time:0.003936052322387695
+2019-09-11 13:40:58 INFO all takes time :1.6802668571472168 seconds
+2019-09-11 13:40:58 INFO match all lines:14
+2019-09-11 13:40:58 INFO finish block
+2019-09-11 13:41:04 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 13:41:04 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 13:41:04 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 13:41:04 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-11 13:41:49 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-11 13:41:49 INFO start block
+2019-09-11 13:41:49 INFO leads type:factory
+2019-09-11 13:41:49 INFO run_mode:test
+2019-09-11 13:41:49 INFO added leads to table:A_FACTORY_REALTIME2
+2019-09-11 13:41:49 INFO added leads match data to:ADDED_MATCH_DATA2
+2019-09-11 13:41:49 INFO set timestamp range to   dt_st:2019-09-08 15:21:30 to dt_ed:2022-06-04 15:21:30
+2019-09-11 13:41:49 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:41:49 INFO collect  request data///:1
+2019-09-11 13:41:49 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:41:49 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-11 13:41:50 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:41:50 INFO get request data error///count:2  message:'NoneType' object is not subscriptable
+2019-09-11 13:41:51 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:41:51 INFO get request data error///count:3  message:'NoneType' object is not subscriptable
+2019-09-11 13:41:52 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1567927290523&timeEnd=1654327290000
+2019-09-11 13:41:52 INFO original lines:1
+2019-09-11 13:41:52 INFO filter lines:0
+2019-09-11 13:41:52 INFO extract lines:0
+2019-09-11 13:41:52 INFO start wrting added match data............
+2019-09-11 13:41:52 INFO create producer match table takes time//0.007158041000366211
+2019-09-11 13:41:52 INFO max timestamp from ADDED_MATCH_DATA2 is 1567927290523
+2019-09-11 13:41:52 INFO set match timestamp from 1567927290523 to 1567930890000 
+2019-09-11 13:41:52 INFO writing  factory added match  successfull,takes time:0.004858732223510742
+2019-09-11 13:41:52 INFO all takes time :3.394110918045044 seconds
+2019-09-11 13:41:52 INFO match all lines:14
+2019-09-11 13:41:52 INFO finish block
+2019-09-11 13:42:04 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-11 13:42:04 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-11 13:42:04 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-11 13:42:04 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

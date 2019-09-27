@@ -1,0 +1,66 @@
+2019-09-17 15:22:45 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 15:22:45 INFO start block
+2019-09-17 15:22:45 INFO leads type:producer
+2019-09-17 15:22:45 INFO run_mode:direct
+2019-09-17 15:22:45 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 15:22:45 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 15:22:47 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-12543: TNS:destination host unreachable
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 15:22:47 INFO 
+2019-09-17 15:22:47 INFO finish block
+2019-09-17 15:22:58 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 15:22:58 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 15:22:58 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 15:22:58 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 15:23:07 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 15:23:07 INFO start block
+2019-09-17 15:23:07 INFO leads type:producer
+2019-09-17 15:23:07 INFO run_mode:test
+2019-09-17 15:23:07 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 15:23:07 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 15:23:07 INFO factory date max:2019-09-17 13:06:57 ,producer date max:2019-09-12 15:50:47  ,date max:2019-09-17 13:06:57
+2019-09-17 15:23:07 INFO get producer add data from dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 15:23:07 INFO read producer data takes time//0.11053681373596191
+2019-09-17 15:23:07 INFO original lines:0
+2019-09-17 15:23:07 INFO start wrting added match data............
+2019-09-17 15:23:07 INFO create producer match table takes time//0.044471025466918945
+2019-09-17 15:23:08 INFO unsupported operand type(s) for /: 'str' and 'int'
+2019-09-17 15:23:08 INFO finish block
+2019-09-17 15:24:33 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 15:24:33 INFO start block
+2019-09-17 15:24:33 INFO leads type:producer
+2019-09-17 15:24:33 INFO run_mode:test
+2019-09-17 15:24:33 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 15:24:33 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 15:24:33 INFO factory date max:2019-09-17 13:06:57 ,producer date max:2019-09-12 15:50:47  ,date max:2019-09-17 13:06:57
+2019-09-17 15:24:33 INFO get producer add data from dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 15:24:34 INFO read producer data takes time//0.06575274467468262
+2019-09-17 15:24:34 INFO original lines:0
+2019-09-17 15:24:34 INFO start wrting added match data............
+2019-09-17 15:24:34 INFO create producer match table takes time//0.04266500473022461
+2019-09-17 15:24:34 INFO set match timestamp from 2019-09-17 13:06:57 to 2047-02-01 13:06:57 
+2019-09-17 15:24:34 INFO writing  producer added match  successfull,takes time:0.019275426864624023
+2019-09-17 15:24:34 INFO producer added data match takes time :0.26198363304138184 seconds
+2019-09-17 15:24:34 INFO all data lines:9578
+2019-09-17 15:24:34 INFO finish block
+2019-09-17 15:40:09 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 15:40:09 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 15:40:09 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 15:40:09 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 15:40:11 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 15:40:11 INFO start block
+2019-09-17 15:40:11 INFO leads type:producer
+2019-09-17 15:40:11 INFO run_mode:test
+2019-09-17 15:40:11 INFO added leads to table:A_PRODUCER_REALTIME
+2019-09-17 15:40:11 INFO added leads match data to:ADDED_MATCH_DATA
+2019-09-17 15:40:12 INFO factory date max:2019-09-17 13:06:57 ,producer date max:2019-09-12 15:50:47  ,date max:2019-09-17 13:06:57
+2019-09-17 15:40:12 INFO get producer add data from dt_st:2019-09-17 13:06:57 to dt_ed:2047-02-01 13:06:57
+2019-09-17 15:40:12 INFO read producer data takes time//0.06276750564575195
+2019-09-17 15:40:12 INFO original lines:0
+2019-09-17 15:40:12 INFO start wrting added match data............
+2019-09-17 15:40:12 INFO create producer match table takes time//0.04853653907775879
+2019-09-17 15:40:12 INFO set match timestamp from 2019-09-17 13:06:57 to 2047-02-01 13:06:57 
+2019-09-17 15:40:12 INFO writing  producer added match  successfull,takes time:0.021121978759765625
+2019-09-17 15:40:12 INFO producer added data match takes time :0.34927988052368164 seconds
+2019-09-17 15:40:12 INFO all data lines:9578
+2019-09-17 15:40:12 INFO finish block

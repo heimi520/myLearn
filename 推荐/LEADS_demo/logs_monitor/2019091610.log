@@ -1,0 +1,18 @@
+2019-09-16 10:35:19 INFO dt_st:2019-09-16 09:10:00  dt_ed:2020-02-02 06:30:00
+2019-09-16 10:35:19 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568596200000&timeEnd=1580596200000
+2019-09-16 10:35:19 INFO collect  request data///:1
+2019-09-16 10:35:19 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568596200000&timeEnd=1580596200000
+2019-09-16 10:35:20 INFO url data count///6
+2019-09-16 10:35:20 INFO cnt_add///0
+2019-09-16 10:35:20 INFO cnt_match///0
+2019-09-16 10:35:29 INFO dt_st:2019-09-16 09:10:00  dt_ed:2020-02-02 06:30:00
+2019-09-16 10:35:29 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568596200000&timeEnd=1580596200000
+2019-09-16 10:35:29 INFO collect  request data///:1
+2019-09-16 10:35:30 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1568596200000&timeEnd=1580596200000
+2019-09-16 10:35:30 INFO url data count///6
+2019-09-16 10:35:30 INFO cnt_add///0
+2019-09-16 10:35:30 INFO cnt_match///0
+2019-09-16 10:37:11 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-16 10:37:11 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-16 10:37:11 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-16 10:37:11 ERROR Invalid alias: The name man can't be aliased because it is another magic command.

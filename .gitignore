@@ -6,3 +6,11 @@
 Meorient/data/
 
 facewap_Demo/
+
+MeorientDetect/data/
+
+WDSR/checkpoint/
+
+wdsr_ntire2018-pytorch/
+
+noise2noise-master/

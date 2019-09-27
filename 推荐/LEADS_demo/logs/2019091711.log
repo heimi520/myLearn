@@ -1,0 +1,579 @@
+2019-09-17 11:12:31 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:12:31 INFO start block
+2019-09-17 11:12:31 INFO leads type:factory
+2019-09-17 11:12:31 INFO run_mode:test
+2019-09-17 11:12:31 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:12:31 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:12:31 INFO filter_type :long
+2019-09-17 11:12:31 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:12:31 INFO 
+2019-09-17 11:12:31 INFO finish block
+2019-09-17 11:12:34 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:12:34 INFO start block
+2019-09-17 11:12:34 INFO leads type:factory
+2019-09-17 11:12:34 INFO run_mode:test
+2019-09-17 11:12:34 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:12:34 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:12:34 INFO filter_type :long
+2019-09-17 11:12:34 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:12:34 INFO 
+2019-09-17 11:12:34 INFO finish block
+2019-09-17 11:17:43 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:17:43 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:17:43 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:17:43 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:17:48 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:17:48 INFO start block
+2019-09-17 11:17:48 INFO leads type:factory
+2019-09-17 11:17:48 INFO run_mode:test
+2019-09-17 11:17:48 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:17:48 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:17:48 INFO filter_type :long
+2019-09-17 11:17:48 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:17:48 INFO data table init
+2019-09-17 11:17:48 INFO set timestamp range to   dt_st:2019-09-11 15:00:00 to dt_ed:2019-09-11 17:00:00
+2019-09-17 11:17:48 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568185200000&timeEnd=1568192400000
+2019-09-17 11:17:48 INFO original lines:0
+2019-09-17 11:17:48 INFO filter lines:0
+2019-09-17 11:17:48 INFO extract lines:0
+2019-09-17 11:17:48 INFO start wrting added match data............
+2019-09-17 11:17:48 INFO create producer match table takes time//0.044370174407958984
+2019-09-17 11:17:48 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:17:48 INFO match table init//////////
+2019-09-17 11:17:48 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:17:48 INFO (cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: 
+INSERT INTO MEORIENTB2B_BI.ADDED_MATCH_DATA_temp
+SELECT DISTINCT
+    b.WEBSITE_ID,
+	b.PURCHASER_ID,
+	b.SUPPLIER_ID,
+	b.MATCH_SCORE,
+	b.PRODUCT_TAG_ID  AS TAG_CODE,
+    TAG.T_NAME AS TAG_NAME ,
+    b.ACTION_TIME,
+    b.OP_TIME,
+	LOCALTIMESTAMP  AS CREATE_TIME,
+	'FACTORY' AS SOURCE
+FROM (
+SELECT
+       a.* ,row_number() over(partition by  a.website_id,a.purchaser_id,a.supplier_id order by  a.match_score   desc)  as   idx
+FROM
+        (
+        SELECT
+                PR.WEBSITE_ID,
+                PR.PURCHASER_ID,
+                BS.SUPPLIER_ID,
+                BS.MATCH_SCORE,
+				BS.PRODUCT_TAG_ID  AS PRODUCT_TAG_ID,
+                'match_already' AS match_source ,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_BUYER_FOR_SUPPLIER BS ON PR.PURCHASER_ID = BS.buyer_id 
+                AND PR.WEBSITE_ID = BS.SUPPLIER_website_id 
+        WHERE
+                PR.OP_TIME>1568185200000 
+                AND PR.OP_TIME<=1568192400000
+        
+                AND BS.PRODUCT_TAG_NAME IS NOT NULL
+								
+                UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1568185200000 
+                AND PR.OP_TIME<=1568192400000 
+        
+								
+								
+				    UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                T2F.SUPPLIER_ID, 
+                 50*0.6 AS match_score,
+				         T2F.PRODUCT_TAG_ID  ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_T2_TAG_FINAL T2F ON PR.WEBSITE_ID = T2F.WEBSITE_ID 
+                AND PR.TAG_CODE = T2F.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1568185200000 
+                AND PR.OP_TIME<=1568192400000 
+            
+												
+							
+        ) a 
+				)b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 
+				
+				]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:17:48 INFO finish block
+2019-09-17 11:19:00 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:19:00 INFO start block
+2019-09-17 11:19:00 INFO leads type:factory
+2019-09-17 11:19:00 INFO run_mode:test
+2019-09-17 11:19:00 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:19:00 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:19:00 INFO filter_type :long
+2019-09-17 11:19:00 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:19:00 INFO data table init
+2019-09-17 11:19:00 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2019-09-11 17:00:00
+2019-09-17 11:19:00 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=1568192400000
+2019-09-17 11:19:00 INFO original lines:0
+2019-09-17 11:19:00 INFO filter lines:0
+2019-09-17 11:19:00 INFO extract lines:0
+2019-09-17 11:19:00 INFO start wrting added match data............
+2019-09-17 11:19:00 INFO create producer match table takes time//0.04337358474731445
+2019-09-17 11:19:00 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:19:00 INFO match table init//////////
+2019-09-17 11:19:00 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:19:00 INFO (cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: 
+INSERT INTO MEORIENTB2B_BI.ADDED_MATCH_DATA_temp
+SELECT DISTINCT
+    b.WEBSITE_ID,
+	b.PURCHASER_ID,
+	b.SUPPLIER_ID,
+	b.MATCH_SCORE,
+	b.PRODUCT_TAG_ID  AS TAG_CODE,
+    TAG.T_NAME AS TAG_NAME ,
+    b.ACTION_TIME,
+    b.OP_TIME,
+	LOCALTIMESTAMP  AS CREATE_TIME,
+	'FACTORY' AS SOURCE
+FROM (
+SELECT
+       a.* ,row_number() over(partition by  a.website_id,a.purchaser_id,a.supplier_id order by  a.match_score   desc)  as   idx
+FROM
+        (
+        SELECT
+                PR.WEBSITE_ID,
+                PR.PURCHASER_ID,
+                BS.SUPPLIER_ID,
+                BS.MATCH_SCORE,
+				BS.PRODUCT_TAG_ID  AS PRODUCT_TAG_ID,
+                'match_already' AS match_source ,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_BUYER_FOR_SUPPLIER BS ON PR.PURCHASER_ID = BS.buyer_id 
+                AND PR.WEBSITE_ID = BS.SUPPLIER_website_id 
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000
+        
+                AND BS.PRODUCT_TAG_NAME IS NOT NULL
+								
+                UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000 
+        
+								
+								
+				    UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                T2F.SUPPLIER_ID, 
+                 50*0.6 AS match_score,
+				         T2F.PRODUCT_TAG_ID  ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_T2_TAG_FINAL T2F ON PR.WEBSITE_ID = T2F.WEBSITE_ID 
+                AND PR.TAG_CODE = T2F.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000 
+            
+												
+							
+        ) a 
+				)b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 
+				
+				]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:19:00 INFO finish block
+2019-09-17 11:19:05 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:19:05 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:19:05 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:19:05 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:19:07 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:19:07 INFO start block
+2019-09-17 11:19:07 INFO leads type:factory
+2019-09-17 11:19:07 INFO run_mode:test
+2019-09-17 11:19:07 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:19:07 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:19:07 INFO filter_type :long
+2019-09-17 11:19:07 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:19:07 INFO data table init
+2019-09-17 11:19:07 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2019-09-11 17:00:00
+2019-09-17 11:19:07 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=1568192400000
+2019-09-17 11:19:07 INFO original lines:0
+2019-09-17 11:19:07 INFO filter lines:0
+2019-09-17 11:19:07 INFO extract lines:0
+2019-09-17 11:19:07 INFO start wrting added match data............
+2019-09-17 11:19:07 INFO create producer match table takes time//0.037702083587646484
+2019-09-17 11:19:07 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:19:07 INFO match table init//////////
+2019-09-17 11:19:07 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:19:07 INFO (cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: 
+INSERT INTO MEORIENTB2B_BI.ADDED_MATCH_DATA_temp
+SELECT DISTINCT
+    b.WEBSITE_ID,
+	b.PURCHASER_ID,
+	b.SUPPLIER_ID,
+	b.MATCH_SCORE,
+	b.PRODUCT_TAG_ID  AS TAG_CODE,
+    TAG.T_NAME AS TAG_NAME ,
+    b.ACTION_TIME,
+    b.OP_TIME,
+	LOCALTIMESTAMP  AS CREATE_TIME,
+	'FACTORY' AS SOURCE
+FROM (
+SELECT
+       a.* ,row_number() over(partition by  a.website_id,a.purchaser_id,a.supplier_id order by  a.match_score   desc)  as   idx
+FROM
+        (
+        SELECT
+                PR.WEBSITE_ID,
+                PR.PURCHASER_ID,
+                BS.SUPPLIER_ID,
+                BS.MATCH_SCORE,
+				BS.PRODUCT_TAG_ID  AS PRODUCT_TAG_ID,
+                'match_already' AS match_source ,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_BUYER_FOR_SUPPLIER BS ON PR.PURCHASER_ID = BS.buyer_id 
+                AND PR.WEBSITE_ID = BS.SUPPLIER_website_id 
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000
+        
+                AND BS.PRODUCT_TAG_NAME IS NOT NULL
+								
+                UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                TAGF.SUPPLIER_ID, 
+                 100*0.6 AS match_score,
+				         TAGF.PRODUCT_TAG_ID ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_PROU_TAG_FINAL  TAGF ON PR.WEBSITE_ID = TAGF.WEBSITE_ID 
+                AND PR.TAG_CODE = TAGF.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000 
+        
+								
+								
+				    UNION ALL
+ 
+        SELECT
+                PR.WEBSITE_ID ,
+                PR.PURCHASER_ID,
+                T2F.SUPPLIER_ID, 
+                 50*0.6 AS match_score,
+				         T2F.PRODUCT_TAG_ID  ,
+                'tag_match' AS match_source,
+                PR.ACTION_TIME,
+                PR.OP_TIME
+        FROM
+                MEORIENTB2B_BI.A_FACTORY_REALTIME_temp PR
+                INNER JOIN MEORIENTB2B_BI.RECOM_SUPPLIER_T2_TAG_FINAL T2F ON PR.WEBSITE_ID = T2F.WEBSITE_ID 
+                AND PR.TAG_CODE = T2F.PRODUCT_TAG_ID
+        WHERE
+                PR.OP_TIME>1547190000000 
+                AND PR.OP_TIME<=1568192400000 
+            
+												
+							
+        ) a 
+				)b   LEFT JOIN   MEORIENTB2B_BI.PRODUCT_TAG_DEFINE  TAG  ON b.PRODUCT_TAG_ID =TAG.TAG_CODE WHERE idx=1 
+				
+				]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:19:07 INFO finish block
+2019-09-17 11:28:25 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:28:25 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:28:25 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:28:25 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:28:38 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:28:38 INFO start block
+2019-09-17 11:28:38 INFO leads type:factory
+2019-09-17 11:28:38 INFO run_mode:test
+2019-09-17 11:28:38 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:28:38 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:28:38 INFO filter_type :long
+2019-09-17 11:28:38 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:28:38 INFO data table init
+2019-09-17 11:28:38 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2019-11-11 17:00:00
+2019-09-17 11:28:38 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=1573462800000
+2019-09-17 11:28:38 INFO collect  request data///:1
+2019-09-17 11:28:38 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=1573462800000
+2019-09-17 11:28:39 INFO original lines:3
+2019-09-17 11:28:39 INFO filter lines:0
+2019-09-17 11:28:39 INFO extract lines:0
+2019-09-17 11:28:39 INFO start wrting added match data............
+2019-09-17 11:28:39 INFO create producer match table takes time//0.003692626953125
+2019-09-17 11:28:39 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:28:39 INFO match table init//////////
+2019-09-17 11:28:39 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:28:39 INFO writing  factory added match  successfull,takes time:0.03317880630493164
+2019-09-17 11:28:39 INFO all takes time :1.3777825832366943 seconds
+2019-09-17 11:28:39 INFO match all lines:0
+2019-09-17 11:28:39 INFO finish block
+2019-09-17 11:29:11 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:29:11 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:29:11 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:29:11 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:29:13 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:29:13 INFO start block
+2019-09-17 11:29:13 INFO leads type:factory
+2019-09-17 11:29:13 INFO run_mode:test
+2019-09-17 11:29:13 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:29:13 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:29:13 INFO filter_type :long
+2019-09-17 11:29:13 INFO data table init
+2019-09-17 11:29:13 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2099-11-11 17:00:00
+2019-09-17 11:29:13 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:29:13 INFO collect  request data///:1
+2019-09-17 11:29:13 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:29:14 INFO original lines:3
+2019-09-17 11:29:14 INFO filter lines:0
+2019-09-17 11:29:14 INFO extract lines:0
+2019-09-17 11:29:14 INFO start wrting added match data............
+2019-09-17 11:29:14 INFO create producer match table takes time//0.006170749664306641
+2019-09-17 11:29:14 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:29:14 INFO match table init//////////
+2019-09-17 11:29:14 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:29:14 INFO writing  factory added match  successfull,takes time:0.010802268981933594
+2019-09-17 11:29:14 INFO all takes time :1.2110707759857178 seconds
+2019-09-17 11:29:14 INFO match all lines:0
+2019-09-17 11:29:14 INFO finish block
+2019-09-17 11:30:52 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:30:52 INFO start block
+2019-09-17 11:30:52 INFO leads type:factory
+2019-09-17 11:30:52 INFO run_mode:test
+2019-09-17 11:30:52 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:30:52 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:30:52 INFO filter_type :long
+2019-09-17 11:30:52 INFO data table init
+2019-09-17 11:30:52 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2099-11-11 17:00:00
+2019-09-17 11:30:52 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:30:52 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-17 11:30:53 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:30:53 INFO get request data error///count:2  message:'NoneType' object is not subscriptable
+2019-09-17 11:30:54 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:30:54 INFO collect  request data///:1
+2019-09-17 11:30:55 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:30:55 INFO original lines:3
+2019-09-17 11:30:55 INFO filter lines:3
+2019-09-17 11:30:55 INFO expected string or bytes-like object
+2019-09-17 11:30:55 INFO finish block
+2019-09-17 11:32:54 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:32:54 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:32:54 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:32:54 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:32:57 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:32:57 INFO start block
+2019-09-17 11:32:57 INFO leads type:factory
+2019-09-17 11:32:57 INFO run_mode:test
+2019-09-17 11:32:57 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:32:57 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:32:57 INFO filter_type :short
+2019-09-17 11:32:57 INFO data table init
+2019-09-17 11:32:57 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2099-11-11 17:00:00
+2019-09-17 11:32:57 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:32:57 INFO collect  request data///:1
+2019-09-17 11:32:57 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:32:58 INFO original lines:3
+2019-09-17 11:32:58 INFO filter lines:3
+2019-09-17 11:32:58 INFO expected string or bytes-like object
+2019-09-17 11:32:58 INFO finish block
+2019-09-17 11:33:51 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:33:51 INFO start block
+2019-09-17 11:33:51 INFO leads type:factory
+2019-09-17 11:33:51 INFO run_mode:test
+2019-09-17 11:33:51 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:33:51 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:33:51 INFO filter_type :short
+2019-09-17 11:33:51 INFO data table init
+2019-09-17 11:33:51 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2099-11-11 17:00:00
+2019-09-17 11:33:51 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:33:51 INFO collect  request data///:1
+2019-09-17 11:33:52 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:33:52 INFO original lines:3
+2019-09-17 11:33:52 INFO filter lines:2
+2019-09-17 11:33:52 INFO extract lines:7
+2019-09-17 11:33:52 INFO start wrting added match data............
+2019-09-17 11:33:52 INFO create producer match table takes time//0.0054187774658203125
+2019-09-17 11:33:52 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:33:52 INFO match table init//////////
+2019-09-17 11:33:52 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:33:53 INFO writing  factory added match  successfull,takes time:0.38426995277404785
+2019-09-17 11:33:53 INFO all takes time :1.5854976177215576 seconds
+2019-09-17 11:33:53 INFO match all lines:2
+2019-09-17 11:33:53 INFO finish block
+2019-09-17 11:34:11 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:34:11 INFO start block
+2019-09-17 11:34:11 INFO leads type:factory
+2019-09-17 11:34:11 INFO run_mode:test
+2019-09-17 11:34:11 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:34:11 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:34:11 INFO filter_type :short
+2019-09-17 11:34:11 INFO set timestamp range to   dt_st:2019-09-17 10:18:57 to dt_ed:2022-06-13 10:18:57
+2019-09-17 11:34:11 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568686737836&timeEnd=1655086737000
+2019-09-17 11:34:11 INFO original lines:0
+2019-09-17 11:34:11 INFO filter lines:0
+2019-09-17 11:34:11 INFO extract lines:0
+2019-09-17 11:34:11 INFO start wrting added match data............
+2019-09-17 11:34:11 INFO create producer match table takes time//0.03496098518371582
+2019-09-17 11:34:11 INFO max timestamp from ADDED_MATCH_DATA_temp is 1568686737836
+2019-09-17 11:34:11 INFO set match timestamp from 1568686737836 to 1568690337000 
+2019-09-17 11:34:12 INFO writing  factory added match  successfull,takes time:0.016573429107666016
+2019-09-17 11:34:12 INFO all takes time :0.14395928382873535 seconds
+2019-09-17 11:34:12 INFO match all lines:2
+2019-09-17 11:34:12 INFO finish block
+2019-09-17 11:35:20 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:35:20 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:35:20 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:35:20 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:35:22 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:35:22 INFO start block
+2019-09-17 11:35:22 INFO leads type:factory
+2019-09-17 11:35:22 INFO run_mode:test
+2019-09-17 11:35:22 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:35:22 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:35:22 INFO filter_type :short
+2019-09-17 11:35:22 INFO get max date error///:(cx_Oracle.DatabaseError) ORA-00942: table or view does not exist
+[SQL: select max(OP_TIME) from MEORIENTB2B_BI.A_FACTORY_REALTIME_temp ]
+(Background on this error at: http://sqlalche.me/e/4xp6)
+2019-09-17 11:35:22 INFO data table init
+2019-09-17 11:35:22 INFO set timestamp range to   dt_st:2019-01-11 15:00:00 to dt_ed:2099-11-11 17:00:00
+2019-09-17 11:35:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:35:22 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-17 11:35:23 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:35:23 INFO collect  request data///:1
+2019-09-17 11:35:24 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=2&size=1000&timeStart=1547190000000&timeEnd=4098070800000
+2019-09-17 11:35:24 INFO original lines:3
+2019-09-17 11:35:24 INFO filter lines:2
+2019-09-17 11:35:24 INFO extract lines:7
+2019-09-17 11:35:24 INFO start wrting added match data............
+2019-09-17 11:35:24 INFO create producer match table takes time//0.08615326881408691
+2019-09-17 11:35:24 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:35:24 INFO match table init//////////
+2019-09-17 11:35:24 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:35:24 INFO finish block
+2019-09-17 11:48:56 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:48:56 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:48:56 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:48:56 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:53:46 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:53:46 INFO start block
+2019-09-17 11:53:46 INFO leads type:factory
+2019-09-17 11:53:46 INFO run_mode:test
+2019-09-17 11:53:46 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:53:46 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:53:46 INFO filter_type :short
+2019-09-17 11:53:47 INFO set timestamp range to   dt_st:2019-09-17 10:18:57 to dt_ed:2022-06-13 10:18:57
+2019-09-17 11:53:47 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568686737836&timeEnd=1655086737000
+2019-09-17 11:53:47 INFO original lines:0
+2019-09-17 11:53:47 INFO filter lines:0
+2019-09-17 11:53:47 INFO extract lines:0
+2019-09-17 11:53:47 INFO start wrting added match data............
+2019-09-17 11:53:47 INFO create producer match table takes time//0.006644487380981445
+2019-09-17 11:53:47 INFO get_max_date() missing 1 required positional argument: 'sql_date_max'
+2019-09-17 11:53:47 INFO finish block
+2019-09-17 11:54:20 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:54:20 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:54:20 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:54:20 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
+2019-09-17 11:54:22 INFO ////////////////////////////////////////////////////////////////////////////////////////////////////////
+2019-09-17 11:54:22 INFO start block
+2019-09-17 11:54:22 INFO leads type:factory
+2019-09-17 11:54:22 INFO run_mode:test
+2019-09-17 11:54:22 INFO added leads to table:A_FACTORY_REALTIME_temp
+2019-09-17 11:54:22 INFO added leads match data to:ADDED_MATCH_DATA_temp
+2019-09-17 11:54:22 INFO filter_type :short
+2019-09-17 11:54:22 INFO set timestamp range to   dt_st:2019-09-17 10:18:57 to dt_ed:2022-06-13 10:18:57
+2019-09-17 11:54:22 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568686737836&timeEnd=1655086737000
+2019-09-17 11:54:22 INFO get request data error///count:1  message:'NoneType' object is not subscriptable
+2019-09-17 11:54:23 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568686737836&timeEnd=1655086737000
+2019-09-17 11:54:23 INFO get request data error///count:2  message:'NoneType' object is not subscriptable
+2019-09-17 11:54:24 INFO http://10.21.64.21:9098/service/factorydata/queryCheckinByOptimePage?page=1&size=1000&timeStart=1568686737836&timeEnd=1655086737000
+2019-09-17 11:54:24 INFO original lines:0
+2019-09-17 11:54:24 INFO filter lines:0
+2019-09-17 11:54:24 INFO extract lines:0
+2019-09-17 11:54:24 INFO start wrting added match data............
+2019-09-17 11:54:24 INFO create producer match table takes time//0.0388333797454834
+2019-09-17 11:54:24 INFO max timestamp from ADDED_MATCH_DATA_temp is None
+2019-09-17 11:54:24 INFO match table init//////////
+2019-09-17 11:54:24 INFO set match timestamp from 631126800000 to 7239952800000 
+2019-09-17 11:54:24 INFO writing  factory added match  successfull,takes time:0.03473091125488281
+2019-09-17 11:54:24 INFO all takes time :2.20894193649292 seconds
+2019-09-17 11:54:24 INFO match all lines:0
+2019-09-17 11:54:24 INFO finish block
+2019-09-17 11:54:35 ERROR Invalid alias: The name clear can't be aliased because it is another magic command.
+2019-09-17 11:54:35 ERROR Invalid alias: The name more can't be aliased because it is another magic command.
+2019-09-17 11:54:35 ERROR Invalid alias: The name less can't be aliased because it is another magic command.
+2019-09-17 11:54:35 ERROR Invalid alias: The name man can't be aliased because it is another magic command.
