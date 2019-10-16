@@ -40,7 +40,7 @@ def pipeline_predict(line_list):
 
     x_test_padded_seqs=text2feature.pipeline_transform(col)
     
-        
+    cnnconfig.NUM_T1_CLASSES=text2feature.num_classes_list[0]
     cnnconfig.NUM_TAG_CLASSES=text2feature.num_classes_list[1]
     cnnconfig.TOKENIZER=text2feature.tokenizer 
     cnnconfig.CUT_LIST=text2feature.cut_list
@@ -113,11 +113,11 @@ sm=data_test[['PRODUCT_TAG_NAME','T1','T2','T1_NAME_PRED','TAG_NAME_PRED','PRODU
 
 
 bad=sm[(sm['TAG_NAME_PRED']!=sm['PRODUCT_TAG_NAME'])&(sm['TAG_NAME_PRED']!='Other_TAG')]
-bad.to_excel('../data/output/0924_bad_check.xlsx',index=False,encoding='gbk')
+bad.to_excel('../data/output/0924_bad_check_v2.xlsx',index=False,encoding='gbk')
 
 
 
-bad[['T1','T2','PRODUCT_TAG_NAME','TAG_NAME_PRED','PRODUCT_NAME']].to_excel('../data/output/tagpack2_bad_data.xlsx',index=False,encoding='gbk')
+bad[['T1','T2','PRODUCT_TAG_NAME','TAG_NAME_PRED','PRODUCT_NAME']].to_excel('../data/output/0924_tagpack_bad_data_v2.xlsx',index=False,encoding='gbk')
 
 #bad[['PRODUCT_TAG_NAME','T2','T2_NAME_PRED','T1','T1_NAME_PRED','PRODUCT_NAME']].to_csv('../data/output/bad_data_tagpack.csv',index=False)
 

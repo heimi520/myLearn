@@ -31,9 +31,9 @@ else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
 
-T_LEVEL_USED='T0' ###
+T_LEVEL_USED='T1' ###
 
-BUYSELL='buy'
+BUYSELL='sell'
 
 
 def pipeline_predict(line_list):
@@ -88,8 +88,16 @@ def read_sell_data():
 #    data=pd.read_excel('../data/meorient_data/8.19验收数据.xlsx')
 #    data=pd.read_excel('../data/meorient_data/付费买家跑模型-sa.xlsx').rename(columns={'product':'PRODUCT_NAME'})
 
-    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
-    data.columns=['PRODUCT_NAME']
+#    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
+#    data.columns=['PRODUCT_NAME']
+#    
+    
+    data=pd.read_excel('../data/meorient_data/打标需求10.9.xlsx',sheetname=0).rename(columns={'PRODUCTS_NAME':'PRODUCT_NAME'})
+#    data.columns=['PRODUCT_NAME']
+#    
+    
+    
+    
     tag1=pd.read_excel('../data/ali_data/服装&3C 标签7.02_new.xlsx',sheet_name=0)
     tag2=pd.read_excel('../data/ali_data/服装&3C 标签7.02_new.xlsx',sheet_name=1)
     tag=pd.concat([tag1,tag2],axis=0)
@@ -213,7 +221,7 @@ data_test['T2_NAME_PRED']=data_test['TAG_NAME_PRED'].map(tag_stand.set_index('PR
 #data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/apparel_3c_预注册买家映射标签（20190916）_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 #data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/apparel_3c_买家跑机器1_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 
-data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/apparel_3c_预注册买家提交标签信息表9.27_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
+data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/apparel_3c_打标需求10.9_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 
 
 

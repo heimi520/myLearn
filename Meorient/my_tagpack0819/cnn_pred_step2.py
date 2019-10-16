@@ -31,9 +31,9 @@ else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
 
-T_LEVEL_USED='T0' ###
+T_LEVEL_USED='T1' ###
 
-BUYSELL='buy'
+BUYSELL='sell'
 
 
 def pipeline_predict(line_list):
@@ -90,6 +90,8 @@ def read_sell_data():
 #    data=pd.read_excel('../data/meorient_data/供应商映射标签（截止20190916）.xlsx')
 #    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
 #    data.columns=['PRODUCT_NAME']
+#    data=pd.read_excel('../data/meorient_data/供应商未打标.xlsx',sheetname=3)
+    data=pd.read_excel('../data/meorient_data/打标需求10.9.xlsx',sheetname=0).rename(columns={'PRODUCTS_NAME':'PRODUCT_NAME'})
     
         
 #    tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx')
@@ -202,7 +204,7 @@ data_test['T2_NAME_PRED']=data_test['TAG_NAME_PRED'].map(tag_stand.set_index('PR
 #data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0819_巴西自取买家翻译+跑模型_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 #data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0819_供应商映射标签（截止20190916）sell_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 #data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0819_预注册买家映射标签（20190916）_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
-data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0819_预注册买家提交标签信息表9.27_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
+data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0819_打标需求10.9_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 
 
 

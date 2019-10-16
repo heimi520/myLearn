@@ -136,15 +136,24 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 #         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
 
 
+#
+# execute(['scrapy', 'crawl', 'vsco',
+#          '-a','is_batch=0',  ###1:yes,0:no
+#          '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/meorient_data/预注册买家提交标签信息表9.27_need_transed.csv',
+#          '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/meorient_data/预注册买家提交标签信息表9.27_transed.csv',
+#          ]
+#
+#         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
+
+
 
 execute(['scrapy', 'crawl', 'vsco',
          '-a','is_batch=0',  ###1:yes,0:no
-         '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/meorient_data/预注册买家提交标签信息表9.27_need_transed.csv',
-         '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/meorient_data/预注册买家提交标签信息表9.27_transed.csv',
+         '-a', 'input_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/trans_data/PRODUCT_TAG_CATE_LINK（标签总表2.0_need_transed.csv',
+         '-a', 'output_path=/home/heimi/文档/gitCodeLessData/myLearn/Meorient/data/trans_data/PRODUCT_TAG_CATE_LINK（标签总表2.0_transed.csv',
          ]
 
         )  # 你需要将此处的spider_name替换为你自己的爬虫名称
-
 
 
 # execute(['scrapy', 'crawl', 'vsco',

@@ -45,9 +45,14 @@ data=data[data['PRODUCT_TAG_NAME'].notnull()]
 data['PRODUCT_TAG_ID']=data['PRODUCT_TAG_NAME'].copy()
 
 
-tag=pd.read_excel('../data/tagpack0924/9.24标签训练.xlsx',sheetname=0)
-tag.columns=['PRODUCT_TAG_NAME','T1','T2']
-
+tag0=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=0)
+tag0.columns=['PRODUCT_TAG_NAME','T1','T2']
+tag=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=2)
+tag=tag[~tag['TAG-2'].apply(lambda x:'删' in x)]
+tag=tag.fillna('')
+tag.columns=['PRODUCT_TAG_NAME0','PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
+tag=tag[['PRODUCT_TAG_NAME']]
+tag=pd.merge(tag,tag0,on=['PRODUCT_TAG_NAME'],how='left')
 
 
 md=pd.merge(data,tag,on=['PRODUCT_TAG_NAME'],how='left')
@@ -56,6 +61,8 @@ md['T1']=md['T1'].fillna('T1_Other')
 md['T2']=md['T2'].fillna('T2_Other')
 
 md.sample(10000).info()
+
+aa=md.sample(1000)
 
 
 cols_list=['PRODUCT_TAG_NAME','T1', 'T2','source','PRODUCT_NAME']

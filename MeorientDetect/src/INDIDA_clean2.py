@@ -54,9 +54,6 @@ import pandas as pd
 import os
 from numpy.random import seed
 
-from keras.preprocessing.text import Tokenizer
-from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
-
 
 import random
 random.seed(1)
@@ -200,7 +197,7 @@ class multiProcess(Process):
 
 
 
-mode='wlq'  ##td,wlq
+mode='td'  ##td,wlq
 
 if mode=='td':
     dd1=pd.read_csv('../data/input/印度.csv',encoding='utf-8')##.head(1000)
@@ -212,18 +209,16 @@ elif mode=='wlq':
     dd=pd.read_csv('../data/input/India_WLQ(数据源).csv')
     dd_backup=dd.copy()
     
-    
-#dd=dd.loc[dd['COMPANY_NAME'].notnull(),['COMPANY_NAME']]
+
 dd=dd.loc[dd['COMPANY_NAME'].notnull()]
 dd=dd.drop_duplicates()
 
-
-#dd=pd.DataFrame([['3 I SHIPPING & LOGISTICS PVT LTD ']],columns=['COMPANY_NAME'])
 
 col=dd['COMPANY_NAME'].tolist()
 myprocess=multiProcess(col,worker=text_clean_batch)
 myprocess.set_tobatch(to_batch_data)
 col=myprocess.run()  
+
 
 def extract_stem_line(col):
     col_str_list=[]
@@ -246,6 +241,8 @@ limit_pd=pd.read_excel('../data/input/印度尾缀3.xlsx').iloc[:,:2]
 limit_pd.columns=['NAME_ORIG','NAME_NEW']
 limit_pd['orig_match']=limit_pd['NAME_ORIG'].apply(lambda x:'( %s$)'%x)
 limit_list=limit_pd[['orig_match','NAME_NEW']].values.tolist()
+tail_dict={v:k for k,v in enumerate(set(limit_pd['NAME_NEW'])) }
+
 
 def drop_limit(limit_list,line):
     for v in limit_list:
@@ -263,38 +260,48 @@ def drop_limit(limit_list,line):
 limit_dict=limit_pd.set_index('NAME_ORIG')['NAME_NEW'].to_dict()
 
 ###stem to word#####################################
-doc_list=[]
-for k,v in enumerate(dd.groupby('STEM_LINE')):
-    if k%10000==0:
-        print('k////',k)
-    
-    line=v[0]
-    td=v[1]
-    def stem2doc(td,stem_line):
-        line_list=[]
-        for v in td['list'].tolist():
-            line_list.extend(v)
-         
-        stem_dict={}    
-        for line in line_list:
-            stem=line[1]
-            word=line[0]
-            if stem_dict.get(stem) is None:
-                stem_dict[stem]=[]
-            stem_dict[stem].append(word)
-        
-        stem_word_dict={}
-        for k,v in stem_dict.items():
-            stem_word_dict[k]=collections.Counter(v).most_common(1)[0][0]
-            
-       
-        new_line=' '.join([stem_word_dict[v]   for v  in  stem_line.split(' ')])  
-        return new_line     
-         
-    doc_line=stem2doc(td,line)
-    doc_line=drop_limit(limit_list,doc_line)
-    doc_list.append([line, doc_line])
-        
+#doc_list=[]
+#groups=dd.groupby('STEM_LINE')
+#for k,v in enumerate(set(dd['STEM_LINE'])):
+#    td=groups.get_group(v)
+##    print(v,len(td))
+#    td_list.append([v,td])
+#    if k%10000==0:
+#        print('k////',k)
+
+
+#
+#for k,v in enumerate(dd.groupby('STEM_LINE')):
+#    if k%10000==0:
+#        print('k////',k)
+#    
+#    line=v[0]
+#    td=v[1]
+#    def stem2doc(td,stem_line):
+#        line_list=[]
+#        for v in td['list'].tolist():
+#            line_list.extend(v)
+#         
+#        stem_dict={}    
+#        for line in line_list:
+#            stem=line[1]
+#            word=line[0]
+#            if stem_dict.get(stem) is None:
+#                stem_dict[stem]=[]
+#            stem_dict[stem].append(word)
+#        
+#        stem_word_dict={}
+#        for k,v in stem_dict.items():
+#            stem_word_dict[k]=collections.Counter(v).most_common(1)[0][0]
+#            
+#       
+#        new_line=' '.join([stem_word_dict[v]   for v  in  stem_line.split(' ')])  
+#        return new_line     
+#         
+#    doc_line=stem2doc(td,line)
+#    doc_line=drop_limit(limit_list,doc_line)
+#    doc_list.append([line, doc_line])
+#        
 
 #####################
 
@@ -319,7 +326,7 @@ if mode=='td':
     result_pd=pd.merge(res_pd,sum_pd,on=['COMPANY_NAME'],how='left')
     result_pd['number']=result_pd['number'].fillna(0)
     
-    result_pd.to_excel('../data/output/inda_clean_%s.xlsx'%mode,index=False)
+#    result_pd.to_excel('../data/output/inda_clean_%s.xlsx'%mode,index=False)
 
 elif mode=='wlq':
     res_pd['COMPANY_NAME']=res_pd['COMPANY_NAME'].str.replace('(^\s*)|(\s*$)','')

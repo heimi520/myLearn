@@ -43,7 +43,7 @@ def pipeline_predict(line_list):
 
     x_test_padded_seqs=text2feature.pipeline_transform(col)
     
-        
+    cnnconfig.NUM_T1_CLASSES=text2feature.num_classes_list[0]   
     cnnconfig.NUM_TAG_CLASSES=text2feature.num_classes_list[1]
     cnnconfig.TOKENIZER=text2feature.tokenizer 
     cnnconfig.CUT_LIST=text2feature.cut_list
@@ -83,44 +83,30 @@ def pipeline_predict(line_list):
 
 
 def read_sell_data():
-#    data=pd.read_csv('../data/meorient_data/供应商全行业映射标签（20190716修正247url）.csv')
-#    data=pd.read_excel('../data/meorient_data/付费买家跑模型-sa.xlsx').rename(columns={'product':'PRODUCT_NAME'})
-#    data=pd.read_excel('../data/meorient_data/供应商映射标签（截止20190916）.xlsx')
-      
-#    data=pd.read_excel('../data/meorient_data/供应商打标 .xlsx')
-#    data=pd.read_excel('../data/meorient_data/8.19验收数据.xlsx')
-    
-        
-#    tag_stand=pd.read_excel('../data/tagpack/8.8机器打标目标标签.xlsx')
-#    tag_stand=pd.read_excel('../data/tagpack2/8.19 打标标签.xlsx',sheetname=0)
-    
-#    data=pd.read_excel('../data/meorient_data/8.30标签验收 .xlsx')
-#    data.columns=['PRODUCT_NAME']
-    
-    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
+    data=pd.read_excel('../data/tagpack0924/9.24验收数据.xlsx')
     data.columns=['PRODUCT_NAME']
-     
-    
-    tag_stand=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=0)
-    tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
-    reg0=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=1)
-    reg0.columns=['PRODUCT_TAG_NAME','PRODUCT_TAG_NAME2','tag1','tag2','tag3','except']
-    reg0=reg0.fillna('')
+    tag0=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=0)
+    tag0.columns=['PRODUCT_TAG_NAME','T1','T2']
+    tag=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=2)
+    tag=tag[~tag['TAG-2'].apply(lambda x:'删' in x)]
+    tag=tag.fillna('')
+    tag.columns=['PRODUCT_TAG_NAME0','PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
+    tag=tag[['PRODUCT_TAG_NAME','tag1','tag2','tag3','except']]
+    tag_stand=pd.merge(tag,tag0,on=['PRODUCT_TAG_NAME'],how='left')
 
-    
-    tag_stand['PRODUCT_TAG_NAME']=tag_stand['PRODUCT_TAG_NAME'].map(reg0.set_index('PRODUCT_TAG_NAME')['PRODUCT_TAG_NAME2'].to_dict())
-    tag_stand=tag_stand.drop_duplicates()
+#    tag_stand['PRODUCT_TAG_NAME']=tag_stand['PRODUCT_TAG_NAME'].map(reg0.set_index('PRODUCT_TAG_NAME')['PRODUCT_TAG_NAME2'].to_dict())
+#    tag_stand=tag_stand.drop_duplicates()
     
 #    tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
     
     
-    tag_stand=tag_stand[tag_stand['T2']!='Air Conditioning Appliances']
+#    tag_stand=tag_stand[tag_stand['T2']!='Air Conditioning Appliances']
     
     
 #    set(data['T2']).intersection(set(tag_stand['T2']))
     
     if T_LEVEL_USED=='T2':
-        data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T2'],how='inner')
+        data=pd.merge(data,tag_stand[['T1','T2']].drop_duplicates(),on=['T1','T2'],how='inner')
         cnt_pd=data.groupby('T2')['T2'].count().to_frame('count')
     elif T_LEVEL_USED=='T1':
         data=pd.merge(data,tag_stand[['T1']].drop_duplicates(),on=['T1'],how='inner')
@@ -144,17 +130,27 @@ def read_buy_data():
     data_trans=pd.read_csv('../data/meorient_data/预注册买家映射标签20190916)_transed.csv')
     data=pd.read_excel('../data/meorient_data/预注册买家映射标签（20190916）.xlsx',encoding='gbk')
     
-    
-    tag_stand=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=0)
-    tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
-    reg0=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=1)
-    reg0.columns=['PRODUCT_TAG_NAME','PRODUCT_TAG_NAME2','tag1','tag2','tag3','except']
-    reg0=reg0.fillna('')
+        
+    tag0=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=0)
+    tag0.columns=['PRODUCT_TAG_NAME','T1','T2']
+    tag=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=2)
+    tag=tag[~tag['TAG-2'].apply(lambda x:'删' in x)]
+    tag=tag.fillna('')
+    tag.columns=['PRODUCT_TAG_NAME0','PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
+    tag=tag[['PRODUCT_TAG_NAME','tag1','tag2','tag3','except']]
+    reg0=pd.merge(tag,tag0,on=['PRODUCT_TAG_NAME'],how='left')
 
-    
-    tag_stand['PRODUCT_TAG_NAME']=tag_stand['PRODUCT_TAG_NAME'].map(reg0.set_index('PRODUCT_TAG_NAME')['PRODUCT_TAG_NAME2'].to_dict())
-    tag_stand=tag_stand.drop_duplicates()
-    
+    tag_stand=reg0[['PRODUCT_TAG_NAME','T1']]
+#    tag_stand=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=0)
+#    tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
+#    reg0=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=1)
+#    reg0.columns=['PRODUCT_TAG_NAME','PRODUCT_TAG_NAME2','tag1','tag2','tag3','except']
+#    reg0=reg0.fillna('')
+#
+#    
+#    tag_stand['PRODUCT_TAG_NAME']=tag_stand['PRODUCT_TAG_NAME'].map(reg0.set_index('PRODUCT_TAG_NAME')['PRODUCT_TAG_NAME2'].to_dict())
+#    tag_stand=tag_stand.drop_duplicates()
+#    
 #    tag_stand=pd.read_excel('../data/tagpack2/8.19 打标标签.xlsx',sheetname=0)
 #    tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
 #    
@@ -211,65 +207,19 @@ data_test['TAG_NAME_PRED']=tag2_max
 
 data_test['T2_NAME_PRED']=data_test['TAG_NAME_PRED'].map(tag_stand.set_index('PRODUCT_TAG_NAME')['T2'].to_dict()).fillna('T1_Other')
 
-#data_test.to_excel('../data/output/8.30标签验收_pred.xlsx',encoding='gbk',index=False)
 
-#data_test.to_excel('../data/output/8.30买家跑机器1_pred.xlsx',encoding='gbk',index=False)
+#data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0924_9.24验收数据.xlsx_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 
-
-#data_test.to_excel('../data/output/8.19验收数据_%s_%s.xlsx'%(BUYSELL,T_LEVEL_USED),encoding='gbk',index=False)
-#data_test.to_excel('../data/output/tagpack2_%s_%s.xlsx'%(BUYSELL,T_LEVEL_USED),encoding='gbk',index=False)
-
-#data_test.to_excel('../data/output/tag_sell_T0_pred_apparel_3c.xlsx',encoding='gbk',index=False)
-#data_test.to_excel('../data/output/预注册买家有T级 无标签_T2TAG_pred_%s.xlsx'%T_LEVEL_USED,encoding='gbk',index=False)
-
-#data_test.to_excel('../data/output/TAG_pred_NO_Air Conditioning Appliances_%s_%s.xlsx'%(T_LEVEL_USED,BUYSELL),encoding='gbk',index=False)
-#
-#1324 2
-
-#data_test['cnt']=1
-#data_test['ok']=(data_test['PRODUCT_TAG_NAME']==data_test['TAG_NAME_PRED']).astype(int)
-#
-#
-#a=data_test.groupby(['T1_NAME_PRED','TAG_NAME_PRED'])['T1'].count().reset_index()
-#
-#
-#cols=['PRODUCT_TAG_NAME','TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','T1','T2','PRODUCT_TAG_NAME','PRODUCT_NAME']
-#
-ret_show=data_test[data_test['TAG_NAME_PRED']!='Other_TAG']
-ret_show.to_excel('../data/output/8.30买家跑机器1_pred.xlsx',encoding='gbk',index=False)
-
-#ret_bad=data_test[data_test['T1_NAME_PRED']=='Other_T1']
-##ret_show.to_csv('../data/output/tagpack_sell_pred_%s.csv'%T_LEVEL_USED,index=False)
-#data_test[cols].to_csv('../data/output/tagpack_meoreint_pred_TAG_step2.csv',index=False)
-
-#cols=['TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','PRODUCT_NAME']
-#ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_step2.xlsx',index=False,encoding='gbk')
-#ret_show.to_excel('../data/output/tagpack_meoreint_pred_TAG_classweight_step2.xlsx',index=False,encoding='gbk')
-#ret_show.to_excel('../data/output/tagpack_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
-
-#data_test.to_excel('../data/output/TAG_pred_NO_Air Conditioning Appliances_%s_%s.xlsx'%(T_LEVEL_USED,BUYSELL),encoding='gbk',index=False)
-#
-ret_show['source']='model_0830'
-#ret_show.to_excel('../data/output/819_check_tagpack_NO_Air Conditioning Appliances_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
-#ret_show.to_excel('../data/output/819_预注册买家有T级 无标签_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
-#ret_show.to_excel('../data/output/0830_买家全行业映射标签（20190717_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
-
-
-#data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0830_付费买家跑模型-sa_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
-#data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0830巴西自取买家翻译+跑模型_buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
-
-#data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0830供应商映射标签（截止20190916）_sell_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
-#data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0830供预注册买家映射标签（20190916）buy_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
-
-
-#
-#aa=data_test.groupby('TAG_NAME_PRED')['T1'].count().sort_values(ascending=False).to_frame('count')
-#aa['pct']=aa['count']/len(data_test)
+data_test.to_excel('../data/output/0924_9.24验收数据all_%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
 
 
 
-#bb=ret_show[['TAG_NAME_PRED','T1_NAME_PRED','PRODUCT_NAME']].drop_duplicates()
-#bb.to_csv('../data/output/tagpack_unique_%s_pred_%s.csv'%(BUYSELL,T_LEVEL_USED),index=False)
 
 
-#
+
+
+
+
+
+
+

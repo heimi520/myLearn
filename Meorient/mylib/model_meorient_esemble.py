@@ -10,7 +10,7 @@ Created on Fri Jun  7 22:38:15 2019
 
 import warnings
 warnings.filterwarnings('ignore')
-
+import gc
 import multiprocessing
 from multiprocessing import *
 
@@ -196,6 +196,7 @@ class baseModel(object):
         self.is_pre_train=config.IS_PRE_TRAIN
         self.embed_trainable=config.EMBED_TRAINABLE
         self.num_tag_classes=config.NUM_TAG_CLASSES ###
+        self.num_t1_classes=config.NUM_T1_CLASSES ###
         self.tokenizer=config.TOKENIZER
         
         self.drop_out_rate=config.DROP_OUT_RATE/2 if self.is_pre_train  else config.DROP_OUT_RATE
@@ -295,36 +296,43 @@ class baseModel(object):
         earlystop=EarlyStopping(monitor=self.monitor_indicator, patience=self.early_stop_count,mode=self.monitor_mode, verbose=2)
         callback_lists=[tensorboard,checkpoint,earlystop,monitor]
         ##########################################################
-        self.history=self.model.fit(
-                                    x={'x_input':x_train_padded_seqs}, 
-                                    y={ k:v  for k,v in zip(self.y_name_list,y_train_list)}, 
-                                    batch_size=self.batch_size,              
-                                    initial_epoch=0,
-                                    epochs=self.epoch_max, 
-                                    validation_data = (x_val_padded_seqs, y_val_list),
-                                    verbose=1,
-                                    callbacks=callback_lists,
-                                    sample_weight=[w_sp_train for v in self.y_name_list],##3 output
-                                    class_weight=w_class_train,
-                                    shuffle=True,
-                                    
+#        self.history=self.model.fit(
+#                                    x={'x_input':x_train_padded_seqs}, 
+#                                    y={ k:v  for k,v in zip(self.y_name_list,y_train_list)}, 
+#                                    batch_size=self.batch_size,              
+#                                    initial_epoch=0,
+#                                    epochs=self.epoch_max, 
+#                                    validation_data = (x_val_padded_seqs, y_val_list),
+#                                    verbose=1,
+#                                    callbacks=callback_lists,
+#                                    sample_weight=[w_sp_train for v in self.y_name_list],##3 output
+#                                    class_weight=w_class_train,
+#                                    shuffle=True
+#                                    )
+        ##############################################################################
+        y1_train=y_train_list[0]
+        y2_train=y_train_list[1]
+        
+        total_count=0
+        for v in x_train_padded_seqs:
+            total_count+=len(v)
+        print('total_count////',total_count)
+        self.history=self.model.fit_generator(
+                                        self.generate_batch_data_random(x_train_padded_seqs, y1_train,y2_train, self.batch_size),                                                      
+                                        steps_per_epoch=total_count//self.batch_size,# ##len(x_train_padded_seqs)//self.batch_size,
+                                        initial_epoch=0,
+                                        nb_epoch=self.epoch_max, 
+                                        validation_data =  (x_val_padded_seqs, y_val_list),
+                                        verbose=1,
+                                        callbacks=callback_lists,
+                                
+#                                        sample_weight=[w_sp_train for v in self.y_name_list],##3 output
+#                                        class_weight=w_class_train,
+#                                        sample_weight=w_sp_train,
+                                        
 #                                        workers=4,
 #                                        use_multiprocessing=True,
-                                    )
-        ##############################################################################
-#        self.history=self.model.fit_generator(
-#                                        self.generate_batch_data_random(x_train_padded_seqs, y1_train,y2_train, self.batch_size),                                                      
-#                                        steps_per_epoch=len(x_train_padded_seqs)//self.batch_size,
-#                                        initial_epoch=0,
-#                                        nb_epoch=self.epoch_max, 
-#                                        validation_data = (x_val_padded_seqs, y1_val,y2_val),
-#                                        verbose=0,
-#                                        callbacks=callback_lists,
-##                                        sample_weight=w_sp_train,
-#                                        
-##                                        workers=4,
-##                                        use_multiprocessing=True,
-#                                        )
+                                        )
         return self.history
 
 
@@ -361,29 +369,51 @@ class baseModel(object):
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Test'], loc='upper left')
         plt.show()
-
-    def generate_batch_data_random(self,x, y1,y2, batch_size):
+        
+ 
+    ###################################################
+    def generate_batch_data_random(self,X_batch_list, big01_batch_list,big02_batch_list, batch_size):
         """逐步提取batch数据到显存，降低对显存的占用"""
-        batches = (len(y1) + batch_size - 1)//batch_size
+#        batches = (len(y1) + batch_size - 1)//batch_size
+        self.count=0
+        self.cnt=0
+        idx=list(range(len(X_batch_list)))
+        self.epoch_count=0
         while(True):
-            cnt=0
-            idx=list(range(len(y)))
-            rns.shuffle(idx)
-            x=x[idx]
-            y=y[idx]
+            self.epoch_count+=1
+            self.count+=1
             
-            idx_col=list(range(x.shape[1]))
-            for i in range(batches):
-                cnt+=1
-                X = x[i*batch_size : (i+1)*batch_size]
-                Y1 = y1[i*batch_size : (i+1)*batch_size]
-                Y2 = y2[i*batch_size : (i+1)*batch_size]
+            rns.shuffle(idx)
+            X_batch_list=[X_batch_list[k]  for k in idx]
+            big01_batch_list=[big01_batch_list[k] for k in idx]
+            big02_batch_list=[big02_batch_list[k] for k in idx]
+            
+            gc.collect()
+#            print('epoch//////////////////////////////////////////////////////',len(X_batch_list))
+            #########per epoch
+            for x,y1,y2 in zip(X_batch_list, big01_batch_list,big02_batch_list):
+                ####select small batch#################
+                batches = (len(x) + batch_size - 1)//batch_size
+                ix=list(range(len(x)))
+                rns.shuffle(ix)
+                x=x[ix]
+                y1=y1[ix]
+                y2=y2[ix]
                 
-#                rns.shuffle(idx_col)
-#                X=X[:,idx_col]
+                y1=keras.utils.to_categorical(y1, num_classes=self.num_t1_classes,dtype='float32')
+                y2=keras.utils.to_categorical(y2, num_classes=self.num_tag_classes,dtype='float32')
+            
                 
-                yield [X], [Y1,Y2]
-    
+#                print('bigbatch//////',len(x))
+                for i in range(batches):
+    #                    self.cnt+=1
+    #                print('cnt',self.cnt,'count',self.count,'batch',batches)
+                    X = x[i*batch_size : (i+1)*batch_size]
+                    Y1 = y1[i*batch_size : (i+1)*batch_size]
+                    Y2 = y2[i*batch_size : (i+1)*batch_size]
+    #                print('X',X.shape,'Y1',Y1.shape,'Y2',Y2.shape)
+                    yield [X], [Y1,Y2]
+        
 
 
 
@@ -463,7 +493,8 @@ class TextCNN(baseModel):
         self.kernel_sizes =[1,2,2,3]
         self.filter_num=64
         self.cut_list=config.CUT_LIST
-    
+        
+        
     def create_conv_pool(self,embed,kernel_sizes,filter_num,seq_len):
         """
         """
@@ -686,6 +717,11 @@ class Text2Feature(object):
         cut_list=line_pd[line_pd['T1_INT_LAG']!=0]['PRODUCT_TAG_NAME_INT'].tolist()
         return line_pd,cut_list
     
+    
+    
+        
+    
+        
  
     def fit_transform(self,data):
         """
@@ -698,6 +734,8 @@ class Text2Feature(object):
         voc_pd=voc_pd.sort_values('count',ascending=False)
         max_words=len(voc_pd[voc_pd['count']>=5])
         logger.info('max_words ////////////////////%s'%max_words)
+        
+        del voc_pd
         
         tokenizer=Tokenizer(num_words=max_words, filters='',lower=True,split=' ') 
         tokenizer.fit_on_texts(data['text'])
@@ -726,7 +764,10 @@ class Text2Feature(object):
             num_classes=len(data[label_tmp].unique())
             self.num_classes_list.append(num_classes)
             
-            yy=keras.utils.to_categorical(data[label_tmp], num_classes=num_classes)
+            yy=data[label_tmp]
+            
+#            yy=self.batch_to_categorical(data[label_tmp].tolist(), num_classes=num_classes,dtype='float16')
+#            yy=keras.utils.to_categorical(data[label_tmp], num_classes=num_classes,dtype='float16')
             
             y_train,y_val=yy[data['flag']!='val'],yy[data['flag']=='val']
             out_list.append([y_train,y_val])
@@ -736,12 +777,62 @@ class Text2Feature(object):
         w_train=data.loc[data['flag']!='val','sample_w']
         t2=time.time()
         
-        
         self.save_obj(self.num_classes_list,'num_classes_list')
         logger.info('feature fit_transform takes time///%s'%(t2-t1))
-        return x_train_padded_seqs,x_val_padded_seqs,y1_train,y1_val,y2_train,y2_val,w_train
+        
+        c1_num=self.num_classes_list[0]
+        c2_num=self.num_classes_list[1]
+        bigsize=1000000
+        self.c1_num=c1_num
+        self.c2_num=c2_num
+        
+        #shuffle train####################################
+        idx=list(range(len(x_train_padded_seqs)))
+        rns.shuffle(idx)
+        x_train_padded_seqs=x_train_padded_seqs[idx]
+        y1_train=y1_train.values[idx]
+        y2_train=y2_train.values[idx]
+        
+#        ############################
+        x_train_bigbatch=self.to_batch(x_train_padded_seqs,batch_size=bigsize)
+        del x_train_padded_seqs
+        gc.collect()
+        
+        y1_train_bigbatch=self.to_batch(y1_train,batch_size=bigsize)
+        del y1_train
+        gc.collect()
+#        
+        y2_train_bigbatch=self.to_batch(y2_train,batch_size=bigsize)
+        del y2_train
+        gc.collect()
+        
+        y1_val=keras.utils.to_categorical(y1_val, num_classes=c1_num,dtype='float32')
+        y2_val=keras.utils.to_categorical(y2_val, num_classes=c2_num,dtype='float32')
+#             
+#        gc.collect()
+        return x_train_bigbatch,x_val_padded_seqs,y1_train_bigbatch,y1_val,y2_train_bigbatch,y2_val,w_train
+#        return x_train_padded_seqs,x_val_padded_seqs,y1_train,y1_val,y2_train,y2_val,w_train
 
     
+    
+    def to_batch(self,col, batch_size):
+        import math
+        num=math.ceil(len(col)/batch_size)
+        batch_list=[]
+        for v in range(num):
+            batch_list.append(col[v*batch_size:(v+1)*batch_size] )
+        return batch_list
+         
+    def batch_to_categorical(self,col,num_classes,batch_size=1000000,dtype='float32'):
+        batch_list=self.to_batch(col, batch_size)
+        ret_list=[]
+        for k,v in enumerate(batch_list):
+            print('batch////',k)
+            ret_batch=keras.utils.to_categorical(v, num_classes=num_classes, dtype=dtype)
+            ret_list.append(ret_batch)
+#        ret_np=np.row_stack(ret_list)
+        return ret_list
+
     def tag2label(self,y):
         tag2label_dict=self.read_obj(self.tag2label_dict_name)
         return [tag2label_dict.get(v,'other')  for v in  y]
@@ -817,9 +908,6 @@ class Text2Feature(object):
         if not self.is_use_char:
             line=line.lower()
             line=re.sub("'s",'',line) ##delete 's
-#            line=re.sub('[0-9]{1,40}[.][0-9]*',' ^ ',line) ###match decimal
-#            line=re.sub('mp3','mp****',line)
-#            line=re.sub('mp4','mp****',line)
             line=re.sub('t[\s-]*shirt',' tshirt',line)
             
             line=re.sub('powerbank',' power bank',line)

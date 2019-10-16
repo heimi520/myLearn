@@ -69,6 +69,8 @@ random.seed(1)
 cols_list=[ 'PRODUCT_NAME','PRODUCT_TAG_NAME','T1','sample_w', 'source']
 total_data=data[cols_list]
 
+
+total_data=total_data.sample(100000)
 total_data.info()
 
 total_data['source'].unique()
@@ -83,31 +85,40 @@ cnnconfig.NUM_TAG_CLASSES=text2feature.num_classes_list[1]
 cnnconfig.TOKENIZER=text2feature.tokenizer 
 cnnconfig.CUT_LIST=text2feature.cut_list
  
-model=TextCNN(cnnconfig)
 
-
-t1_int=np.argmax(y1_train,axis=1)
-tag_int=np.argmax(y2_train,axis=1)
-
-
-t1_dict={v:k for k,v in  text2feature.read_obj('label2num_dict_%s'%'T1').items()}
-tag_dict={v:k for k,v in text2feature.read_obj('label2num_dict_%s'%'PRODUCT_TAG_NAME').items()}
- 
-t1_weights = compute_class_weight('balanced', np.unique(t1_int), t1_int)
-t1_weights_dict = dict(zip(np.unique(t1_int), t1_weights))
-
-tag_weights = compute_class_weight('balanced', np.unique(tag_int), tag_int)
-tag_weights_dict = dict(zip(np.unique(tag_int), tag_weights))
+#
+#model=TextCNN(cnnconfig)
+#
+#
+#t1_int=np.argmax(y1_train,axis=1)
+#tag_int=np.argmax(y2_train,axis=1)
+#
+#
+#t1_dict={v:k for k,v in  text2feature.read_obj('label2num_dict_%s'%'T1').items()}
+#tag_dict={v:k for k,v in text2feature.read_obj('label2num_dict_%s'%'PRODUCT_TAG_NAME').items()}
+# 
+#t1_weights = compute_class_weight('balanced', np.unique(t1_int), t1_int)
+#t1_weights_dict = dict(zip(np.unique(t1_int), t1_weights))
+#
+#tag_weights = compute_class_weight('balanced', np.unique(tag_int), tag_int)
+#tag_weights_dict = dict(zip(np.unique(tag_int), tag_weights))
 #
 #t1_name_dict={t1_dict[k]:v  for k,v in t1_weights_dict.items()}
 #tag_name_dict={tag_dict[k]:v  for k,v in tag_weights_dict.items()}
 
 
+#model=TextCNN(cnnconfig)
+#model.build_model()
+#model.train(x_train_padded_seqs, [y1_train,y2_train],x_val_padded_seqs, [y1_val,y2_val],w_sp_train=w_sp_train.values,w_class_train=[t1_weights_dict,tag_weights_dict] ) ##data_train['sample_w'].values
+
+
+
+
+
 model=TextCNN(cnnconfig)
 model.build_model()
-model.train(x_train_padded_seqs, [y1_train,y2_train],x_val_padded_seqs, [y1_val,y2_val],w_sp_train=w_sp_train.values,w_class_train=[t1_weights_dict,tag_weights_dict] ) ##data_train['sample_w'].values
-
-
+#model.train(x_train_padded_seqs[0], [y1_train[0],y2_train[0]],x_val_padded_seqs, [y1_val,y2_val],w_sp_train=None,w_class_train=None ) ##data_train['sample_w'].values
+model.train(x_train_padded_seqs, [y1_train,y2_train],x_val_padded_seqs, [y1_val,y2_val],w_sp_train=None,w_class_train=None ) ##data_train['sample_w'].values
 
 
 

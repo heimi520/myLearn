@@ -170,9 +170,21 @@ datafilter=data0[data0['T1']!='T1_Other']
 #reg_me['except']=(reg_me['except'].apply(lambda x:set(x.split('  ')))-reg_me['except_bad'].apply(lambda x:set(x.split(' ')))).apply(lambda x:'  '.join(list(x)))
 
 
-reg0=pd.read_excel('../data/tagpack0924/9.24标签训练-包含规则.xlsx',sheetname=0)
-reg0.columns=['PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
-reg0=reg0.fillna('')
+#reg0=pd.read_excel('../data/tagpack0924/9.24标签训练-包含规则.xlsx',sheetname=0)
+#reg0.columns=['PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
+#reg0=reg0.fillna('')
+
+
+
+
+tag0=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=0)
+tag0.columns=['PRODUCT_TAG_NAME','T1','T2']
+tag=pd.read_excel('../data/tagpack0924/9.24标签训练规则.xlsx',sheetname=2)
+tag=tag[~tag['TAG-2'].apply(lambda x:'删' in x)]
+tag=tag.fillna('')
+tag.columns=['PRODUCT_TAG_NAME0','PRODUCT_TAG_NAME','tag1','tag2','tag3','except']
+tag=tag[['PRODUCT_TAG_NAME','tag1','tag2','tag3','except']]
+reg0=pd.merge(tag,tag0,on=['PRODUCT_TAG_NAME'],how='left')
 
     
 #len(set(reg0['PRODUCT_TAG_NAME']))

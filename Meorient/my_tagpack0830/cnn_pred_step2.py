@@ -31,9 +31,9 @@ else:
     logger.info('using gpu:%s'%cnnconfig.GPU_DEVICES)
 
 
-T_LEVEL_USED='T0' ###
+T_LEVEL_USED='T1' ###
 
-BUYSELL='buy'
+BUYSELL='sellz'
 
 
 def pipeline_predict(line_list):
@@ -97,9 +97,13 @@ def read_sell_data():
 #    data=pd.read_excel('../data/meorient_data/8.30标签验收 .xlsx')
 #    data.columns=['PRODUCT_NAME']
     
-    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
-    data.columns=['PRODUCT_NAME']
+#    data=pd.read_excel('../data/meorient_data/买家跑机器1.xlsx')
+#    data.columns=['PRODUCT_NAME']
      
+#    data=pd.read_excel('../data/meorient_data/供应商未打标.xlsx',sheetname=3)
+    data=pd.read_excel('../data/meorient_data/打标需求10.9.xlsx',sheetname=0).rename(columns={'PRODUCTS_NAME':'PRODUCT_NAME'})
+    
+      
     
     tag_stand=pd.read_excel('../data/tagpack0830/8.30批次标签.xlsx',sheetname=0)
     tag_stand.columns=['PRODUCT_TAG_NAME','T1','T2']
@@ -240,7 +244,11 @@ data_test['T2_NAME_PRED']=data_test['TAG_NAME_PRED'].map(tag_stand.set_index('PR
 #cols=['PRODUCT_TAG_NAME','TAG_NAME_PRED','T1_NAME_PRED','T2_NAME_PRED','T1','T2','PRODUCT_TAG_NAME','PRODUCT_NAME']
 #
 ret_show=data_test[data_test['TAG_NAME_PRED']!='Other_TAG']
-ret_show.to_excel('../data/output/8.30预注册买家提交标签信息表9.27_pred.xlsx',encoding='gbk',index=False)
+#ret_show.to_excel('../data/output/8.30_供应商未打标_pred.xlsx',encoding='gbk',index=False)
+
+
+data_test[data_test['TAG_NAME_PRED']!='Other_TAG'].to_excel('../data/output/0830_打标需求10.9%s_%s.xlsx'%(T_LEVEL_USED,pd.datetime.now().strftime('%Y%m%d')),encoding='gbk',index=False)
+
 
 #ret_bad=data_test[data_test['T1_NAME_PRED']=='Other_T1']
 ##ret_show.to_csv('../data/output/tagpack_sell_pred_%s.csv'%T_LEVEL_USED,index=False)
@@ -253,7 +261,7 @@ ret_show.to_excel('../data/output/8.30预注册买家提交标签信息表9.27_p
 
 #data_test.to_excel('../data/output/TAG_pred_NO_Air Conditioning Appliances_%s_%s.xlsx'%(T_LEVEL_USED,BUYSELL),encoding='gbk',index=False)
 #
-ret_show['source']='model_0830'
+#ret_show['source']='model_0830'
 #ret_show.to_excel('../data/output/819_check_tagpack_NO_Air Conditioning Appliances_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
 #ret_show.to_excel('../data/output/819_预注册买家有T级 无标签_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
 #ret_show.to_excel('../data/output/0830_买家全行业映射标签（20190717_%s_pred_%s.xlsx'%(BUYSELL,T_LEVEL_USED),index=False,encoding='gbk')
